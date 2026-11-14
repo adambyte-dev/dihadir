@@ -43,11 +43,16 @@ class User extends Authenticatable
     }
 
     /**
-     * Get avatar direct URL via registered route /avatar/user/{id}
+     * Get avatar direct URL via registered route /avatar/preview
+     * Digunakan untuk memastikan avatar selalu ter-render dengan andal
+     * tanpa bergantung pada id user tertentu di database hosting.
      */
     public function getAvatarUrlAttribute(): string
     {
-        return route('avatar.user', ['user' => $this->id]);
+        $style = $this->avatar_style ?: 'lorelei';
+        $seed = $this->avatar_seed ?: ($this->name ?: 'User');
+
+        return \App\Services\AvatarService::getAvatarUrl($style, $seed);
     }
 
     /**

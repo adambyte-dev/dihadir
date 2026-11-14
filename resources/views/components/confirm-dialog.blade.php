@@ -1,4 +1,7 @@
 <div
+    x-cloak
+    style="display: none;"
+    x-show="open"
     x-data="{
         open: false,
         title: 'Konfirmasi Tindakan',
@@ -57,23 +60,25 @@
         window.addEventListener('custom-confirm', (e) => ask(e.detail));
         document.addEventListener('submit', (e) => {
             const form = e.target;
-            const msg = form.getAttribute('data-confirm');
-            if (msg && !form._confirmed) {
-                e.preventDefault();
-                const title = form.getAttribute('data-confirm-title') || 'Konfirmasi Tindakan';
-                const confirmText = form.getAttribute('data-confirm-btn') || 'Ya, Lanjutkan';
-                const variant = form.getAttribute('data-confirm-variant') || 'danger';
-                ask({
-                    title: title,
-                    message: msg,
-                    confirmText: confirmText,
-                    variant: variant,
-                    form: form,
-                    onConfirm: () => {
-                        form._confirmed = true;
-                        form.submit();
-                    }
-                });
+            if (form && typeof form.getAttribute === 'function' && form.hasAttribute('data-confirm')) {
+                const msg = form.getAttribute('data-confirm');
+                if (msg && msg.trim() !== '' && !form._confirmed) {
+                    e.preventDefault();
+                    const title = form.getAttribute('data-confirm-title') || 'Konfirmasi Tindakan';
+                    const confirmText = form.getAttribute('data-confirm-btn') || 'Ya, Lanjutkan';
+                    const variant = form.getAttribute('data-confirm-variant') || 'danger';
+                    ask({
+                        title: title,
+                        message: msg,
+                        confirmText: confirmText,
+                        variant: variant,
+                        form: form,
+                        onConfirm: () => {
+                            form._confirmed = true;
+                            form.submit();
+                        }
+                    });
+                }
             }
         }, true);
     "

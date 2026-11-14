@@ -21,6 +21,8 @@
     <link rel="icon" type="image/webp" sizes="32x32" href="{{ asset('images/logo-dihadir-icon.webp') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/logo-dihadir-icon.webp') }}">
 
+    <style>[x-cloak] { display: none !important; }</style>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="flex min-h-screen flex-col bg-slate-50 text-slate-900 antialiased">
