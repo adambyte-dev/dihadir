@@ -17,8 +17,9 @@
 
     <title>{{ $pageTitle }} | SMKN 1 Majalengka</title>
 
-    <link rel="icon" type="image/png" href="{{ asset('images/logo-dihadir-icon.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/logo-dihadir-icon.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/webp" sizes="32x32" href="{{ asset('images/logo-dihadir-icon.webp') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-dihadir-icon.webp') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -32,7 +33,7 @@
                 class="group flex items-center gap-3 rounded-xl py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             >
                 <img
-                    src="{{ asset('images/logo-dihadir-full-trimmed.png') }}"
+                    src="{{ asset('images/logo-dihadir-full-trimmed.webp') }}"
                     alt="DIHADIR"
                     width="1623" height="400"
                     class="h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02] sm:h-12"
@@ -47,7 +48,7 @@
                 class="group flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50/70 px-2.5 py-1.5 transition-colors hover:border-slate-300 hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
                 <img
-                    src="{{ asset('images/logo-smkn1majalengka-trimmed.png') }}"
+                    src="{{ asset('images/logo-smkn1majalengka-trimmed.webp') }}"
                     alt="Lambang SMK Negeri 1 Majalengka"
                     width="1196" height="1127"
                     class="h-11 w-11 shrink-0 object-contain drop-shadow-sm sm:h-12 sm:w-12"
@@ -72,7 +73,7 @@
         <div class="{{ $maxWidth }} mx-auto flex flex-col items-center justify-between gap-3 px-4 py-5 text-[11px] text-slate-500 sm:flex-row sm:px-6 lg:px-8">
             <div class="flex items-center gap-2.5">
                 <img
-                    src="{{ asset('images/logo-dihadir-icon-trimmed.png') }}"
+                    src="{{ asset('images/logo-dihadir-icon-trimmed.webp') }}"
                     alt=""
                     aria-hidden="true"
                     class="h-5 w-5 object-contain opacity-70"

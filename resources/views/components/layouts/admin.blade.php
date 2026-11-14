@@ -96,8 +96,9 @@
 
     <title>{{ $pageTitle }} | DIHADIR SMKN 1 Majalengka</title>
 
-    <link rel="icon" type="image/png" href="{{ asset('images/logo-dihadir-icon.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/logo-dihadir-icon.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/webp" sizes="32x32" href="{{ asset('images/logo-dihadir-icon.webp') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-dihadir-icon.webp') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -130,7 +131,7 @@
                     <a href="{{ route('admin.dashboard') }}" class="group flex items-center gap-3 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
                         <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-lg shadow-slate-950/40 ring-1 ring-white/25">
                             <img
-                                src="{{ asset('images/logo-smkn1majalengka-trimmed.png') }}"
+                                src="{{ asset('images/logo-smkn1majalengka-trimmed.webp') }}"
                                 alt="Lambang SMK Negeri 1 Majalengka"
                                 width="1196" height="1127"
                                 class="h-full w-full object-contain"
@@ -281,7 +282,7 @@
                         {{-- Logo mobile --}}
                         <a href="{{ route('admin.dashboard') }}" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-900 p-1 shadow-sm lg:hidden">
                             <img
-                                src="{{ asset('images/logo-smkn1majalengka-trimmed.png') }}"
+                                src="{{ asset('images/logo-smkn1majalengka-trimmed.webp') }}"
                                 alt="SMKN 1 Majalengka"
                                 width="1196" height="1127"
                                 class="h-full w-full object-contain"
@@ -430,7 +431,7 @@
             <div class="sticky top-0 flex items-center justify-between gap-3 border-b border-slate-100 bg-white px-4 py-3">
                 <div class="flex items-center gap-2.5">
                     <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 p-1">
-                        <img src="{{ asset('images/logo-smkn1majalengka-trimmed.png') }}" alt="" aria-hidden="true" class="h-full w-full object-contain">
+                        <img src="{{ asset('images/logo-smkn1majalengka-trimmed.webp') }}" alt="" aria-hidden="true" class="h-full w-full object-contain">
                     </span>
                     <div class="leading-tight">
                         <p class="text-[13px] font-bold text-slate-900">Menu Navigasi</p>

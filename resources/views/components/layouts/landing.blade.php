@@ -10,7 +10,7 @@
     $pageTitle = $title ? $title . ' | DIHADIR' : 'DIHADIR — Sistem Presensi Digital Pertemuan Resmi SMKN 1 Majalengka';
     $metaDescription = $description ?? 'Platform presensi digital resmi SMKN 1 Majalengka. Pengelolaan absensi pertemuan, QR Code instan, tanda tangan digital touchscreen, dan rekapitulasi laporan resmi berstandar kedinasan.';
     $canonicalUrl = $canonical ?? url()->current();
-    $metaImage = $ogImage ?? asset('images/logo-dihadir-full.png');
+    $metaImage = $ogImage ?? asset('images/logo-dihadir-full.webp');
 @endphp
 
 <!DOCTYPE html>
@@ -46,8 +46,9 @@
     <meta name="twitter:image" content="{{ $metaImage }}">
 
     {{-- Favicon & App Icons --}}
-    <link rel="icon" type="image/png" href="{{ asset('images/logo-dihadir-icon.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/logo-dihadir-icon.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/webp" sizes="32x32" href="{{ asset('images/logo-dihadir-icon.webp') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-dihadir-icon.webp') }}">
 
     @stack('head')
 
@@ -63,7 +64,7 @@
                 class="group flex items-center gap-3 rounded-xl py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
                 <img
-                    src="{{ asset('images/logo-dihadir-full-trimmed.png') }}"
+                    src="{{ asset('images/logo-dihadir-full-trimmed.webp') }}"
                     alt="DIHADIR"
                     width="1623" height="400"
                     class="h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02] sm:h-11"
@@ -125,7 +126,7 @@
                 <div class="space-y-4 md:col-span-2">
                     <div class="flex items-center gap-3">
                         <img
-                            src="{{ asset('images/logo-dihadir-full-trimmed.png') }}"
+                            src="{{ asset('images/logo-dihadir-full-trimmed.webp') }}"
                             alt="DIHADIR"
                             class="h-9 w-auto object-contain"
                         >
@@ -140,7 +141,7 @@
                             rel="noopener noreferrer"
                             class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-100"
                         >
-                            <img src="{{ asset('images/logo-smkn1majalengka-trimmed.png') }}" alt="Lambang SMKN 1 Majalengka" width="20" height="20" class="h-4 w-4 object-contain">
+                            <img src="{{ asset('images/logo-smkn1majalengka-trimmed.webp') }}" alt="Lambang SMKN 1 Majalengka" width="20" height="20" class="h-4 w-4 object-contain">
                             <span>SMK Negeri 1 Majalengka</span>
                         </a>
                         <span class="text-xs text-slate-400">NPSN: 20213853</span>

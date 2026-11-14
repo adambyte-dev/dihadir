@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cetak Laporan Kehadiran - {{ $meeting->title }}</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo-dihadir-icon.png') }}">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/webp" sizes="32x32" href="{{ asset('images/logo-dihadir-icon.webp') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-dihadir-icon.webp') }}">@vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         @media print {
@@ -76,7 +77,7 @@
         
         <!-- KOP Surat Resmi SMKN 1 Majalengka -->
         <div class="flex items-center gap-4 pb-2">
-            <img src="{{ asset('images/logo-smkn1majalengka.png') }}" alt="Lambang SMKN 1 Majalengka" class="h-20 w-auto shrink-0">
+            <img src="{{ asset('images/logo-smkn1majalengka.webp') }}" alt="Lambang SMKN 1 Majalengka" class="h-20 w-auto shrink-0">
             <div class="text-center flex-1 pr-14">
                 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-800 leading-tight">Pemerintah Daerah Provinsi Jawa Barat</h3>
                 <h2 class="text-base font-bold uppercase text-slate-900 leading-tight">Dinas Pendidikan, Cabang Dinas Wilayah IX</h2>

@@ -354,7 +354,7 @@
                     <section class="overflow-hidden rounded-xl border border-slate-200/90 bg-white p-5 shadow-sm">
                         <div class="flex items-center gap-3">
                             <img
-                                src="{{ asset('images/logo-smkn1majalengka-trimmed.png') }}"
+                                src="{{ asset('images/logo-smkn1majalengka-trimmed.webp') }}"
                                 alt="Lambang SMK Negeri 1 Majalengka"
                                 width="1196"
                                 height="1127"

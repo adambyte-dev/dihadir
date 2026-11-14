@@ -97,7 +97,7 @@
                 <div class="overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-6 shadow-2xs">
                     <div class="flex items-start gap-4 pb-4 border-b border-slate-100">
                         <img
-                            src="{{ asset('images/logo-smkn1majalengka.png') }}"
+                            src="{{ asset('images/logo-smkn1majalengka.webp') }}"
                             alt="Lambang SMKN 1 Majalengka"
                             class="h-14 w-auto shrink-0 object-contain drop-shadow-2xs"
                         >

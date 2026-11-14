@@ -14,7 +14,7 @@
             <div class="relative">
                 <div class="inline-flex items-center gap-3 rounded-xl bg-white/95 px-4 py-3 shadow-lg shadow-slate-950/30 ring-1 ring-white/20">
                     <img
-                        src="{{ asset('images/logo-dihadir-full-trimmed.png') }}"
+                        src="{{ asset('images/logo-dihadir-full-trimmed.webp') }}"
                         alt="DIHADIR"
                         width="1623" height="400"
                         class="h-10 w-auto object-contain"
@@ -24,7 +24,7 @@
                 <div class="mt-8 flex items-start gap-4">
                     <div class="shrink-0 rounded-xl bg-white/95 p-2 shadow-md">
                         <img
-                            src="{{ asset('images/logo-smkn1majalengka-trimmed.png') }}"
+                            src="{{ asset('images/logo-smkn1majalengka-trimmed.webp') }}"
                             alt="Lambang SMK Negeri 1 Majalengka"
                             width="1196" height="1127"
                             class="h-16 w-16 object-contain"

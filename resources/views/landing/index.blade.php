@@ -14,7 +14,7 @@
                     '@id' => 'https://smkn1majalengka.sch.id/#organization',
                     'name' => 'SMK Negeri 1 Majalengka',
                     'url' => 'https://smkn1majalengka.sch.id',
-                    'logo' => asset('images/logo-smkn1majalengka.png'),
+                    'logo' => asset('images/logo-smkn1majalengka.webp'),
                     'address' => [
                         '@type' => 'PostalAddress',
                         'streetAddress' => 'Jl. Raya Tonjong–Pinangraja No. 55',
@@ -359,10 +359,11 @@
                         Tim Pengembang &amp; Inisiator Sistem
                     </h2>
                 </div>
-                <div class="inline-flex items-center gap-2 rounded-lg bg-slate-50 border border-slate-200 px-3 py-1 text-xs text-slate-600 shrink-0">
-                    <span class="font-medium">TIM IT Perpustakaan</span>
+                <div class="inline-flex items-center gap-2.5 rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-1.5 text-xs text-slate-600 shrink-0 shadow-2xs">
+                    <img src="{{ asset('images/logo-perpustakaan-wacanateknologi.webp') }}" alt="Logo Perpustakaan Wacana Teknologi SMKN 1 Majalengka" class="h-6 w-6 object-contain">
+                    <span class="font-bold text-slate-800">Perpustakaan Wacana Teknologi</span>
                     <span class="text-slate-300">•</span>
-                    <span class="font-mono text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-1.5 py-0.2 rounded">SRJ-LIB-9E4B21</span>
+                    <span class="font-mono text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-1.5 py-0.5 rounded">SRJ-LIB-9E4B21</span>
                 </div>
             </div>
 
@@ -376,7 +377,7 @@
                             <div class="relative">
                                 <div class="h-20 w-20 overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-50 p-0.5 shadow-sm ring-4 ring-slate-100">
                                     <img
-                                        src="{{ asset('images/team-adam.jpg') }}"
+                                        src="{{ asset('images/team-adam.webp') }}"
                                         alt="Foto Muhamad Adam Hidayat - Programmer Utama DIHADIR"
                                         width="320" height="320"
                                         loading="lazy"
@@ -416,7 +417,7 @@
                             <div class="relative">
                                 <div class="h-20 w-20 overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-50 p-0.5 shadow-sm ring-4 ring-slate-100">
                                     <img
-                                        src="{{ asset('images/team-keisha.jpg') }}"
+                                        src="{{ asset('images/team-keisha.webp') }}"
                                         alt="Foto Keisha Nur Asyifa - Lead QA DIHADIR"
                                         width="320" height="320"
                                         loading="lazy"
@@ -456,7 +457,7 @@
                             <div class="relative">
                                 <div class="h-20 w-20 overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-50 p-0.5 shadow-sm ring-4 ring-slate-100">
                                     <img
-                                        src="{{ asset('images/team-aldi.jpg') }}"
+                                        src="{{ asset('images/team-aldi.webp') }}"
                                         alt="Foto Aldi Faturrizqy - Tim Dukungan & Presentasi DIHADIR"
                                         width="320" height="320"
                                         loading="lazy"
@@ -496,7 +497,7 @@
                             <div class="relative">
                                 <div class="h-20 w-20 overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-50 p-0.5 shadow-sm ring-4 ring-slate-100">
                                     <img
-                                        src="{{ asset('images/team-nayma.jpg') }}"
+                                        src="{{ asset('images/team-nayma.webp') }}"
                                         alt="Foto Nayma Zahra Nurrizki - Tim Notulis & Tester DIHADIR"
                                         width="320" height="320"
                                         loading="lazy"

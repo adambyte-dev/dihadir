@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cetak QR Standee Absensi - {{ $meeting->title }}</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo-dihadir-icon.png') }}">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/webp" sizes="32x32" href="{{ asset('images/logo-dihadir-icon.webp') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-dihadir-icon.webp') }}">@vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         @media print {
@@ -76,11 +77,11 @@
         <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white p-7">
             <div class="flex items-center justify-center gap-3.5 mb-3">
                 <div class="bg-white rounded-xl p-1.5 shadow-md">
-                    <img src="{{ asset('images/logo-smkn1majalengka.png') }}" alt="SMKN 1 Majalengka" class="h-12 w-12 object-contain">
+                    <img src="{{ asset('images/logo-smkn1majalengka.webp') }}" alt="SMKN 1 Majalengka" class="h-12 w-12 object-contain">
                 </div>
                 <div class="h-8 w-px bg-white/20"></div>
                 <div class="bg-white rounded-xl px-2.5 py-1.5 shadow-md">
-                    <img src="{{ asset('images/logo-dihadir-full-trimmed.png') }}" alt="DIHADIR" class="h-7 w-auto object-contain">
+                    <img src="{{ asset('images/logo-dihadir-full-trimmed.webp') }}" alt="DIHADIR" class="h-7 w-auto object-contain">
                 </div>
             </div>
 
