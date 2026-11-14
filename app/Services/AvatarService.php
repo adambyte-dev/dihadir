@@ -107,6 +107,16 @@ class AvatarService
     }
 
     /**
+     * Dapatkan SVG avatar dalam format data URI base64 yang dapat di-embed
+     * langsung ke atribut src pada tag img tanpa HTTP round-trip tambahan.
+     */
+    public static function getAvatarDataUri(?string $styleName = 'lorelei', ?string $seed = 'default', array $options = []): string
+    {
+        $svg = self::renderSvg($styleName, $seed, $options);
+        return 'data:image/svg+xml;base64,' . base64_encode($svg);
+    }
+
+    /**
      * Generate SVG DiceBear dengan disk caching otomatis
      */
     public static function renderSvg(?string $styleName = 'lorelei', ?string $seed = 'default', array $options = []): string

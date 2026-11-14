@@ -52,7 +52,7 @@ class User extends Authenticatable
         $style = $this->avatar_style ?: 'lorelei';
         $seed = $this->avatar_seed ?: ($this->name ?: 'User');
 
-        return \App\Services\AvatarService::getAvatarUrl($style, $seed);
+        return \App\Services\AvatarService::getAvatarDataUri($style, $seed);
     }
 
     /**
