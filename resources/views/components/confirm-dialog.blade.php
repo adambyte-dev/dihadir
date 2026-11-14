@@ -9,7 +9,16 @@
         targetForm: null,
         callback: null,
 
-        ask({ title, message, confirmText = 'Ya, Lanjutkan', cancelText = 'Batal', variant = 'danger', form = null, onConfirm = null }) {
+        ask(opts = {}) {
+            opts = opts || {};
+            const title = opts.title;
+            const message = opts.message;
+            const confirmText = opts.confirmText || 'Ya, Lanjutkan';
+            const cancelText = opts.cancelText || 'Batal';
+            const variant = opts.variant || 'danger';
+            const form = opts.form || null;
+            const onConfirm = opts.onConfirm || null;
+
             this.title = title || (variant === 'danger' ? 'Konfirmasi Hapus' : 'Konfirmasi Tindakan');
             this.message = message || 'Apakah Anda yakin ingin melanjutkan tindakan ini?';
             this.confirmText = confirmText;
