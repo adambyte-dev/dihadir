@@ -506,6 +506,6 @@
     </div>
 
     {{-- Modal Dialog Konfirmasi Khusus (Menggantikan confirm bawaan browser) --}}
-    <x-confirm-dialog />
+    {{-- <x-confirm-dialog /> --}}
 </body>
 </html>
