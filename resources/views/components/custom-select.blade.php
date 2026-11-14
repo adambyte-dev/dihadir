@@ -97,7 +97,7 @@
         x-cloak
         class="absolute left-0 right-0 z-50 mt-1 max-h-60 overflow-y-auto rounded-xl border border-slate-200 bg-white p-1 shadow-lg ring-1 ring-slate-900/5"
     >
-        <template x-for="(label, key) in options" :key="key">
+        <template x-for="[key, label] in Object.entries(options)" :key="key">
             <button
                 type="button"
                 @click="select(key, label)"
