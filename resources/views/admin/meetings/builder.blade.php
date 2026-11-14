@@ -314,7 +314,7 @@
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                         <div>
                                             <label class="block text-xs font-semibold text-slate-700 mb-1">Judul Pertanyaan</label>
-                                            <input type="text" name="label" value="{{ $field->label }}" required class="w-full h-9 rounded-xl border border-slate-300 px-3 text-xs text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                                            <input id="builder_label_{{ $field->id }}" aria-label="Label Pertanyaan" type="text" name="label" value="{{ $field->label }}" required class="w-full h-9 rounded-xl border border-slate-300 px-3 text-xs text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                                         </div>
                                         <div>
                                             <label class="block text-xs font-semibold text-slate-700 mb-1">Tipe Input</label>
@@ -343,19 +343,19 @@
 
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-700 mb-1">Keterangan / Petunjuk (Opsional)</label>
-                                        <input type="text" name="description" value="{{ $field->description }}" class="w-full h-9 rounded-xl border border-slate-300 px-3 text-xs text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                                        <input id="builder_desc_{{ $field->id }}" aria-label="Petunjuk Pengisian" type="text" name="description" value="{{ $field->description }}" class="w-full h-9 rounded-xl border border-slate-300 px-3 text-xs text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                                     </div>
 
                                     @if (in_array($field->type, ['select', 'radio', 'checkbox', 'scale']))
                                         <div>
                                             <label class="block text-xs font-semibold text-slate-700 mb-1">Opsi Pilihan (Pisahkan 1 baris per opsi)</label>
-                                            <textarea name="options_raw" rows="3" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">{{ implode("\n", $field->options ?? []) }}</textarea>
+                                            <textarea id="builder_opts_{{ $field->id }}" aria-label="Pilihan Opsi (satu opsi per baris)" name="options_raw" rows="3" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">{{ implode("\n", $field->options ?? []) }}</textarea>
                                         </div>
                                     @endif
 
                                     <div class="flex items-center justify-between pt-2">
                                         <label class="flex items-center gap-2 cursor-pointer">
-                                            <input type="checkbox" name="is_required" value="1" {{ $field->is_required ? 'checked' : '' }} class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                                            <input id="builder_req_{{ $field->id }}" aria-label="Wajib Diisi" type="checkbox" name="is_required" value="1" {{ $field->is_required ? 'checked' : '' }} class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
                                             <span class="text-xs font-semibold text-slate-700">Wajib Diisi</span>
                                         </label>
 
@@ -403,10 +403,11 @@
                             @csrf
 
                             <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">
+                                <label for="builder_new_field_label" class="block text-xs font-semibold text-slate-700 mb-1">
                                     Label Pertanyaan <span class="text-rose-500 font-bold">*</span>
                                 </label>
                                 <input
+                                    id="builder_new_field_label"
                                     type="text"
                                     name="label"
                                     required
@@ -444,10 +445,11 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">
+                                <label for="builder_new_field_desc" class="block text-xs font-semibold text-slate-700 mb-1">
                                     Petunjuk Pengisian (Opsional)
                                 </label>
                                 <input
+                                    id="builder_new_field_desc"
                                     type="text"
                                     name="description"
                                     placeholder="Contoh: Tuliskan nama lengkap sesuai dokumen resmi"
@@ -456,10 +458,11 @@
                             </div>
 
                             <div x-show="['select', 'radio', 'checkbox', 'scale'].includes(selectedType)" x-cloak>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">
+                                <label for="builder_new_field_options" class="block text-xs font-semibold text-slate-700 mb-1">
                                     Daftar Opsi Pilihan (Tulis 1 baris per opsi) <span class="text-rose-500 font-bold">*</span>
                                 </label>
                                 <textarea
+                                    id="builder_new_field_options"
                                     name="options_raw"
                                     rows="4"
                                     placeholder="Opsi Pilihan 1&#10;Opsi Pilihan 2&#10;Opsi Pilihan 3"

@@ -88,6 +88,8 @@
                             {{-- Nilai 0 wajib dikirim agar menonaktifkan akun benar-benar tersimpan. --}}
                             <input type="hidden" name="is_active" value="0">
                             <input
+                                id="participant_is_active"
+                                aria-label="Status Akun Peserta Aktif"
                                 type="checkbox"
                                 name="is_active"
                                 value="1"

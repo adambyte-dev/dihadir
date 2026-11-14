@@ -30,6 +30,8 @@
                 {{-- Quick Search --}}
                 <div class="relative flex-1">
                     <input
+                        id="meetings_search"
+                        aria-label="Cari judul pertemuan, topik, atau lokasi"
                         type="text"
                         name="search"
                         value="{{ request('search') }}"

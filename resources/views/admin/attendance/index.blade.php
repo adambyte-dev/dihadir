@@ -130,6 +130,8 @@
                         <input type="hidden" name="tab" value="{{ $tab }}">
                         <div class="relative w-full sm:w-64">
                             <input
+                                id="attendance_search_q"
+                                aria-label="Cari nama, NIP, atau instansi peserta"
                                 type="text"
                                 name="q"
                                 value="{{ $search }}"

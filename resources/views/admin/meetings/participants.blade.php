@@ -82,6 +82,8 @@
 
                             <form method="GET" action="{{ route('admin.pertemuan.peserta.index', $meeting) }}" class="flex items-center gap-2">
                                 <input
+                                    id="participants_search_q"
+                                    aria-label="Cari nama, NIP, atau unit kerja peserta"
                                     type="text"
                                     name="q"
                                     value="{{ $search }}"
@@ -191,6 +193,8 @@
                             @forelse ($availableParticipants as $p)
                                 <label class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 cursor-pointer">
                                     <input
+                                        id="chk_participant_{{ $p->id }}"
+                                        aria-label="Pilih peserta {{ $p->name }}"
                                         type="checkbox"
                                         name="participant_ids[]"
                                         value="{{ $p->id }}"

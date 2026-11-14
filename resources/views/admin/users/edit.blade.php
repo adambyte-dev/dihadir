@@ -74,6 +74,8 @@
                                         {{-- Nilai 0 wajib dikirim agar menonaktifkan akun benar-benar tersimpan. --}}
                                         <input type="hidden" name="is_active" value="0">
                                         <input
+                                            id="user_is_active"
+                                            aria-label="Status Pengelola Aktif"
                                             type="checkbox"
                                             name="is_active"
                                             value="1"

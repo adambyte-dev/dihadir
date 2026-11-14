@@ -177,7 +177,7 @@
 
                             @foreach ($customFields as $field)
                                 <div>
-                                    <label class="block text-xs font-semibold text-slate-800 mb-1">
+                                    <label for="cf_{{ $field->field_key }}" class="block text-xs font-semibold text-slate-800 mb-1">
                                         {{ $field->label }}
                                         @if ($field->is_required)
                                             <span class="text-rose-600 font-bold">*</span>
@@ -190,7 +190,7 @@
                                     @if ($field->type === 'text')
                                         <input
                                             type="text"
-                                            name="custom_fields[{{ $field->field_key }}]"
+                                            id="cf_{{ $field->field_key }}" id="cf_{{ $field->field_key }}" name="custom_fields[{{ $field->field_key }}]"
                                             value="{{ old('custom_fields.' . $field->field_key) }}"
                                             placeholder="{{ $field->placeholder ?: 'Jawaban Anda' }}"
                                             {{ $field->is_required ? 'required' : '' }}
@@ -199,7 +199,7 @@
                                     @elseif ($field->type === 'email')
                                         <input
                                             type="email"
-                                            name="custom_fields[{{ $field->field_key }}]"
+                                            id="cf_{{ $field->field_key }}" id="cf_{{ $field->field_key }}" name="custom_fields[{{ $field->field_key }}]"
                                             value="{{ old('custom_fields.' . $field->field_key) }}"
                                             placeholder="{{ $field->placeholder ?: 'nama@email.com' }}"
                                             {{ $field->is_required ? 'required' : '' }}
@@ -208,7 +208,7 @@
                                     @elseif ($field->type === 'phone')
                                         <input
                                             type="tel"
-                                            name="custom_fields[{{ $field->field_key }}]"
+                                            id="cf_{{ $field->field_key }}" id="cf_{{ $field->field_key }}" name="custom_fields[{{ $field->field_key }}]"
                                             value="{{ old('custom_fields.' . $field->field_key) }}"
                                             placeholder="{{ $field->placeholder ?: '08xxxxxxxxxx' }}"
                                             {{ $field->is_required ? 'required' : '' }}
@@ -216,7 +216,7 @@
                                         >
                                     @elseif ($field->type === 'textarea')
                                         <textarea
-                                            name="custom_fields[{{ $field->field_key }}]"
+                                            id="cf_{{ $field->field_key }}" id="cf_{{ $field->field_key }}" name="custom_fields[{{ $field->field_key }}]"
                                             rows="3"
                                             placeholder="{{ $field->placeholder ?: 'Tuliskan jawaban Anda di sini...' }}"
                                             {{ $field->is_required ? 'required' : '' }}
@@ -225,7 +225,7 @@
                                     @elseif ($field->type === 'number')
                                         <input
                                             type="number"
-                                            name="custom_fields[{{ $field->field_key }}]"
+                                            id="cf_{{ $field->field_key }}" id="cf_{{ $field->field_key }}" name="custom_fields[{{ $field->field_key }}]"
                                             value="{{ old('custom_fields.' . $field->field_key) }}"
                                             placeholder="{{ $field->placeholder ?: '0' }}"
                                             {{ $field->is_required ? 'required' : '' }}
@@ -233,7 +233,7 @@
                                         >
                                     @elseif ($field->type === 'select')
                                         <x-custom-select
-                                            name="custom_fields[{{ $field->field_key }}]"
+                                            id="cf_{{ $field->field_key }}" id="cf_{{ $field->field_key }}" name="custom_fields[{{ $field->field_key }}]"
                                             :options="$field->options ?? []"
                                             :value="old('custom_fields.' . $field->field_key)"
                                             placeholder="-- Pilih salah satu --"
@@ -246,7 +246,7 @@
                                                 <label class="flex items-center gap-2 cursor-pointer text-xs text-slate-700">
                                                     <input
                                                         type="radio"
-                                                        name="custom_fields[{{ $field->field_key }}]"
+                                                        id="cf_{{ $field->field_key }}" id="cf_{{ $field->field_key }}" name="custom_fields[{{ $field->field_key }}]"
                                                         value="{{ $opt }}"
                                                         {{ old('custom_fields.' . $field->field_key) === $opt ? 'checked' : '' }}
                                                         {{ $field->is_required ? 'required' : '' }}
@@ -277,7 +277,7 @@
                                                 <label class="flex cursor-pointer items-center justify-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-2xs hover:border-blue-500 hover:bg-blue-50/50 has-checked:border-blue-600 has-checked:bg-blue-600 has-checked:text-white transition">
                                                     <input
                                                         type="radio"
-                                                        name="custom_fields[{{ $field->field_key }}]"
+                                                        id="cf_{{ $field->field_key }}" id="cf_{{ $field->field_key }}" name="custom_fields[{{ $field->field_key }}]"
                                                         value="{{ $sVal }}"
                                                         {{ old('custom_fields.' . $field->field_key) === $sVal ? 'checked' : '' }}
                                                         {{ $field->is_required ? 'required' : '' }}
@@ -291,7 +291,7 @@
                                         <div class="rounded-lg border border-slate-300 bg-white p-3">
                                             <input
                                                 type="file"
-                                                name="custom_files[{{ $field->field_key }}]"
+                                                id="cf_{{ $field->field_key }}" id="cf_{{ $field->field_key }}" name="custom_files[{{ $field->field_key }}]"
                                                 accept="image/*,.pdf,.doc,.docx"
                                                 {{ $field->is_required ? 'required' : '' }}
                                                 class="block w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
@@ -310,7 +310,7 @@
                                     @elseif ($field->type === 'date')
                                         <input
                                             type="date"
-                                            name="custom_fields[{{ $field->field_key }}]"
+                                            id="cf_{{ $field->field_key }}" id="cf_{{ $field->field_key }}" name="custom_fields[{{ $field->field_key }}]"
                                             value="{{ old('custom_fields.' . $field->field_key) }}"
                                             {{ $field->is_required ? 'required' : '' }}
                                             class="w-full h-9 rounded-lg border border-slate-300 bg-white px-3 text-xs text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
@@ -318,7 +318,7 @@
                                     @elseif ($field->type === 'time')
                                         <input
                                             type="time"
-                                            name="custom_fields[{{ $field->field_key }}]"
+                                            id="cf_{{ $field->field_key }}" id="cf_{{ $field->field_key }}" name="custom_fields[{{ $field->field_key }}]"
                                             value="{{ old('custom_fields.' . $field->field_key) }}"
                                             {{ $field->is_required ? 'required' : '' }}
                                             class="w-full h-9 rounded-lg border border-slate-300 bg-white px-3 text-xs text-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"

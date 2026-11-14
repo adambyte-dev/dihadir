@@ -195,6 +195,8 @@
                         <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Tautan Absensi</label>
                         <div class="relative">
                             <input
+                                id="public_meeting_url"
+                                aria-label="Tautan formulir kehadiran publik"
                                 type="text"
                                 readonly
                                 value="{{ $publicUrl }}"

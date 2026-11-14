@@ -175,6 +175,7 @@
                         <div class="flex items-center justify-between gap-3 pt-0.5">
                             <label class="inline-flex cursor-pointer select-none items-center gap-2">
                                 <input
+                                    id="remember_me"
                                     type="checkbox"
                                     name="remember"
                                     class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0"
