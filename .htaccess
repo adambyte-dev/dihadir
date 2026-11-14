@@ -1,0 +1,27 @@
+# ==============================================================================
+# ROOT .htaccess — DIHADIR Defense in Depth (Apache Shared / Misconfigured Host)
+# ==============================================================================
+# Menjaga file sensitif (.env, composer.json, database, artisan, storage)
+# agar tidak pernah bisa diakses jika document root server salah diarahkan ke root.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Blokir akses ke file .env, .git, dll.
+    RewriteRule ^(\.env|\.git|composer\.(json|lock)|package(-lock)?\.json|artisan) - [F,L,NC]
+
+    # Alihkan seluruh request lain ke public/ jika document root berada di root
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Blokir seluruh akses langsung ke file sensitif
+<FilesMatch "^\.(env|git|gitignore|editorconfig)">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>

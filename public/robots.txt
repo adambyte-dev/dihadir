@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Allow: /kebijakan-privasi
+Allow: /syarat-ketentuan
+Allow: /build/
+Allow: /images/
+
+# Rute privat, formulir pertemuan ber-token, login, dan panel internal
+Disallow: /admin
+Disallow: /admin/
+Disallow: /absensi
+Disallow: /absensi/
+Disallow: /p/
+Disallow: /avatar/
+Disallow: /api/
+
+Sitemap: https://dihadir.smkn1majalengka.sch.id/sitemap.xml
