@@ -84,7 +84,7 @@ class AvatarService
     }
 
     /**
-     * Dapatkan URL file SVG statis instan untuk style & seed
+     * Dapatkan URL file SVG atau endpoint dinamis untuk style & seed
      */
     public static function getAvatarUrl(?string $styleName = 'lorelei', ?string $seed = 'default'): string
     {
@@ -98,15 +98,12 @@ class AvatarService
             $seed = 'DIHADIR';
         }
 
-        $hash = md5($styleName . '_' . $seed);
-        $fileName = 'avatar_' . $styleName . '_' . $hash . '.svg';
-        $filePath = self::getStorageDir() . DIRECTORY_SEPARATOR . $fileName;
-
-        if (! File::exists($filePath)) {
-            self::renderAndSaveSvg($styleName, $seed, $filePath);
-        }
-
-        return asset('storage/avatars/' . $fileName);
+        // Gunakan route dinamis /avatar/preview agar selalu berhasil disajikan
+        // baik di local environment maupun shared hosting tanpa ketergantungan symlink storage.
+        return route('avatar.preview', [
+            'style' => $styleName,
+            'seed' => $seed,
+        ]);
     }
 
     /**

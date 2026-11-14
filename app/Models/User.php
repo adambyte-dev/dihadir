@@ -43,14 +43,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Get static avatar direct URL for lightning fast static file serving
+     * Get avatar direct URL via registered route /avatar/user/{id}
      */
     public function getAvatarUrlAttribute(): string
     {
-        $style = $this->avatar_style ?: 'lorelei';
-        $seed = $this->avatar_seed ?: ($this->name ?: 'User-' . $this->id);
-
-        return \App\Services\AvatarService::getAvatarUrl($style, $seed);
+        return route('avatar.user', ['user' => $this->id]);
     }
 
     /**
