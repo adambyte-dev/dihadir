@@ -1,0 +1,28 @@
+# DIHADIR — Digital Attendance Management System
+> Sistem Pengelolaan Presensi Digital Kegiatan SMKN 1 Majalengka
+
+## Ringkasan Proyek
+DIHADIR adalah sistem absensi digital resmi yang dikembangkan untuk SMKN 1 Majalengka guna mendigitalkan daftar kehadiran pertemuan, rapat dinas, pertemuan orang tua/komite, serta kemitraan Dunia Usaha & Dunia Industri (DUDI). Sistem menggantikan presensi kertas fisik dengan formulir terstruktur, kode QR dinamis, tanda tangan digital di layar sentuh, dan laporan rekapitulasi berstandar kedinasan.
+
+## Pengembang & Penyelenggara
+- **Instansi Penyelenggara**: SMK Negeri 1 Majalengka (Jawa Barat, Indonesia).
+- **Programmer Utama**: Muhamad Adam Hidayat.
+- **Tim Pengembang & Pengujian**: Keisha Nur Asyifa (Lead QA), Aldi Faturrizqy (Support & Presentasi), Nayma Zahra Nurrizki (Dokumentasi & Tester).
+- **Lisensi & Hak Cipta**: Dilindungi Hak Cipta © SMKN 1 Majalengka.
+
+## Modul & Fitur Inti
+- **Presensi Tanpa Akun (Zero-Barrier)**: Peserta dan orang tua mengisi kehadiran langsung via scan QR Code atau tautan token pertemuan tanpa perlu mendaftar akun terlebih dahulu.
+- **Form Login Absensi & Verifikasi Puzzle**: Akses presensi alternatif terproteksi verifikasi keamanan geser (Slide to Verify Puzzle) anti-bot otomatis.
+- **Tanda Tangan Digital Touchscreen**: Pembubuhan tanda tangan langsung di layar smartphone maupun kursor laptop dengan kompresi kurva presisi.
+- **Pencegahan Presensi Ganda (Anti-Duplikasi)**: Validasi NIP/identitas dan token sesi memastikan satu peserta hanya dapat mengirim satu kali presensi per pertemuan.
+- **Custom Form Builder**: Fleksibilitas penambahan butir pertanyaan kustom (teks, dropdown, file upload bukti tugas).
+- **Rekapitulasi & Ekspor Laporan Multi-Format**: Otomatisasi penerbitan laporan kedinasan dalam format PDF resmi (lengkap dengan KOP sekolah dan tanda tangan), XLSX/Excel (terproteksi formula injection), dan CSV.
+- **Kepatuhan Privasi Data (UU PDP No. 27/2022)**: Standar enkripsi data sensitif, audit log aktivitas administrator, dan perlindungan privasi peserta.
+
+## Tautan Resmi
+- Beranda Publik: https://dihadir.wacanateknologi.id/
+- Form Login Absensi Peserta: https://dihadir.wacanateknologi.id/absensi/login
+- Panel Masuk Admin: https://dihadir.wacanateknologi.id/admin/login
+- Kebijakan Privasi: https://dihadir.wacanateknologi.id/kebijakan-privasi
+- Syarat & Ketentuan: https://dihadir.wacanateknologi.id/syarat-ketentuan
+- Peta Situs (XML Sitemap): https://dihadir.wacanateknologi.id/sitemap.xml

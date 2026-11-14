@@ -43,10 +43,21 @@ Route::get('/syarat-ketentuan', function () {
 Route::get('/robots.txt', function () {
     $path = public_path('robots.txt');
     if (file_exists($path)) {
-        return response(file_get_contents($path), 200, ['Content-Type' => 'text/plain']);
+        return response(file_get_contents($path), 200, ['Content-Type' => 'text/plain; charset=utf-8']);
     }
-    return response("User-agent: *\nAllow: /\n", 200, ['Content-Type' => 'text/plain']);
+    return response("User-agent: *\nAllow: /\nSitemap: https://dihadir.wacanateknologi.id/sitemap.xml\n", 200, ['Content-Type' => 'text/plain; charset=utf-8']);
 })->name('robots');
+
+Route::get('/llms.txt', function () {
+    $path = public_path('llms.txt');
+    if (file_exists($path)) {
+        return response(file_get_contents($path), 200, [
+            'Content-Type' => 'text/plain; charset=utf-8',
+            'Cache-Control' => 'public, max-age=86400',
+        ]);
+    }
+    abort(404);
+})->name('llms');
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 

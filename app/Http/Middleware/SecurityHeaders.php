@@ -17,7 +17,15 @@ class SecurityHeaders
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Hilangkan header identifikasi server PHP untuk mencegah reconnaissance penyerang
+        if (function_exists('header_remove')) {
+            @header_remove('X-Powered-By');
+        }
+
         $response = $next($request);
+
+        // Hapus header X-Powered-By dari respons Symfony jika terpasang
+        $response->headers->remove('X-Powered-By');
 
         $headers = [
             'X-Content-Type-Options' => 'nosniff',
@@ -63,7 +71,7 @@ class SecurityHeaders
         $path = trim($request->path(), '/');
 
         // Halaman publik yang ditujukan untuk crawling Google
-        if ($path === '' || $path === 'kebijakan-privasi' || $path === 'syarat-ketentuan' || $path === 'sitemap.xml') {
+        if ($path === '' || $path === 'kebijakan-privasi' || $path === 'syarat-ketentuan' || $path === 'sitemap.xml' || $path === 'robots.txt' || $path === 'llms.txt') {
             return 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
         }
 

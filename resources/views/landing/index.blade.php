@@ -50,6 +50,44 @@
                     ],
                     'description' => 'Aplikasi manajemen presensi digital rapat, pertemuan orang tua, dewan guru, dan kemitraan industri SMKN 1 Majalengka dengan QR code instan dan tanda tangan digital.',
                 ],
+                [
+                    '@type' => 'FAQPage',
+                    '@id' => route('landing') . '#faq',
+                    'mainEntity' => [
+                        [
+                            '@type' => 'Question',
+                            'name' => 'Bagaimana cara peserta atau orang tua mengisi daftar hadir tanpa harus membuat akun?',
+                            'acceptedAnswer' => [
+                                '@type' => 'Answer',
+                                'text' => 'Peserta cukup memindai QR Code acara yang disediakan panitia atau membuka tautan token kegiatan. Formulir kehadiran dapat langsung diisi (Nama, NIP/Identitas, Unit Kerja/Asal Instansi, dan tanda tangan digital di layar) tanpa perlu proses pendaftaran akun.'
+                            ]
+                        ],
+                        [
+                            '@type' => 'Question',
+                            'name' => 'Apakah tanda tangan digital yang dibubuhkan peserta memiliki keabsahan resmi?',
+                            'acceptedAnswer' => [
+                                '@type' => 'Answer',
+                                'text' => 'Ya, tanda tangan digital dibubuhkan langsung menggunakan layar sentuh smartphone atau pointer mouse laptop, dikompresi secara akurat, dan tercatat bersama stempel waktu (server timestamp Asia/Jakarta) serta rekapitulasi kehadiran resmi berstandar kedinasan.'
+                            ]
+                        ],
+                        [
+                            '@type' => 'Question',
+                            'name' => 'Bagaimana sistem mencegah kecurangan atau pengisian absensi ganda?',
+                            'acceptedAnswer' => [
+                                '@type' => 'Answer',
+                                'text' => 'DIHADIR menerapkan mekanisme anti-duplikasi berbasis token sesi per pertemuan dan validasi ketat identitas NIP/nomor registrasi di level server, sehingga satu peserta tidak dapat mengirimkan respons berulang untuk kegiatan yang sama.'
+                            ]
+                        ],
+                        [
+                            '@type' => 'Question',
+                            'name' => 'Format laporan apa saja yang dapat diunduh oleh panitia atau pengelola?',
+                            'acceptedAnswer' => [
+                                '@type' => 'Answer',
+                                'text' => 'Pengelola acara dapat mengunduh rekapitulasi data kehadiran dalam format PDF resmi siap cetak (lengkap dengan KOP surat SMKN 1 Majalengka dan kolom tanda tangan), berkas spreadsheet XLSX/Excel terproteksi formula injection, serta berkas CSV.'
+                            ]
+                        ]
+                    ]
+                ],
             ],
         ];
     @endphp
@@ -532,7 +570,69 @@
         </div>
     </section>
 
-    {{-- ==================== 5. ADOPSI SISTEM UNTUK SEKOLAH LAIN ==================== --}}
+    {{-- ==================== 5. FAQ (PERTANYAAN UMUM & CITABILITY AI) ==================== --}}
+    <section id="faq" class="py-16 sm:py-24 bg-slate-50 border-t border-slate-200/80">
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="inline-flex items-center gap-1.5 rounded-full bg-blue-50 border border-blue-200/60 px-3 py-1 text-xs font-bold text-blue-700">
+                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Informasi &amp; Tanya Jawab</span>
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+                    Pertanyaan Umum Seputar Sistem DIHADIR
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Jawaban praktis mengenai tata kelola presensi digital, keabsahan tanda tangan, serta perlindungan data peserta kegiatan sekolah.
+                </p>
+            </div>
+
+            <div class="mt-12 space-y-4">
+                <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-2xs">
+                    <h3 class="text-sm font-bold text-slate-900 flex items-start gap-2.5">
+                        <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[11px] font-extrabold text-blue-700">1</span>
+                        <span>Bagaimana cara peserta atau orang tua mengisi daftar hadir tanpa harus membuat akun?</span>
+                    </h3>
+                    <p class="mt-2.5 pl-7 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Peserta cukup memindai QR Code acara yang disediakan panitia atau membuka tautan token kegiatan. Formulir kehadiran dapat langsung diisi (Nama, NIP/Identitas, Unit Kerja/Asal Instansi, dan tanda tangan digital di layar) tanpa perlu proses pendaftaran akun.
+                    </p>
+                </div>
+
+                <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-2xs">
+                    <h3 class="text-sm font-bold text-slate-900 flex items-start gap-2.5">
+                        <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[11px] font-extrabold text-blue-700">2</span>
+                        <span>Apakah tanda tangan digital yang dibubuhkan peserta memiliki keabsahan resmi?</span>
+                    </h3>
+                    <p class="mt-2.5 pl-7 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Ya, tanda tangan digital dibubuhkan langsung menggunakan layar sentuh smartphone atau mouse laptop, dikompresi secara akurat, dan tercatat bersama stempel waktu server (WIB) serta rekapitulasi kehadiran resmi berstandar kedinasan.
+                    </p>
+                </div>
+
+                <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-2xs">
+                    <h3 class="text-sm font-bold text-slate-900 flex items-start gap-2.5">
+                        <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[11px] font-extrabold text-blue-700">3</span>
+                        <span>Bagaimana sistem mencegah kecurangan atau pengisian absensi ganda?</span>
+                    </h3>
+                    <p class="mt-2.5 pl-7 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        DIHADIR menerapkan mekanisme anti-duplikasi berbasis token sesi per pertemuan dan validasi ketat identitas NIP/nomor registrasi di level server, sehingga satu peserta tidak dapat mengirimkan respons berulang untuk kegiatan yang sama.
+                    </p>
+                </div>
+
+                <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-2xs">
+                    <h3 class="text-sm font-bold text-slate-900 flex items-start gap-2.5">
+                        <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[11px] font-extrabold text-blue-700">4</span>
+                        <span>Format laporan apa saja yang dapat diunduh oleh panitia atau pengelola?</span>
+                    </h3>
+                    <p class="mt-2.5 pl-7 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Pengelola acara dapat mengunduh rekapitulasi data kehadiran dalam format PDF resmi siap cetak (lengkap dengan KOP surat SMKN 1 Majalengka dan kolom tanda tangan), berkas spreadsheet XLSX/Excel terproteksi formula injection, serta berkas CSV.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- ==================== 6. ADOPSI SISTEM UNTUK SEKOLAH LAIN ==================== --}}
     <section id="adopsi" class="py-16 sm:py-24 bg-slate-50 border-t border-slate-200/80">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 p-8 sm:p-12 text-white shadow-xl">

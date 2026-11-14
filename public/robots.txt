@@ -14,4 +14,4 @@ Disallow: /p/
 Disallow: /avatar/
 Disallow: /api/
 
-Sitemap: https://dihadir.smkn1majalengka.sch.id/sitemap.xml
+Sitemap: https://dihadir.wacanateknologi.id/sitemap.xml
