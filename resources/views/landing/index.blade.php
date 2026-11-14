@@ -30,7 +30,7 @@
                     '@type' => 'WebSite',
                     '@id' => route('landing') . '#website',
                     'url' => route('landing'),
-                    'name' => 'DIHADIR — Sistem Presensi Digital Pertemuan Resmi',
+                    'name' => 'DIHADIR: Sistem Presensi Digital Pertemuan Resmi',
                     'description' => 'Sistem Presensi Digital dan Manajemen Daftar Hadir Pertemuan Resmi SMKN 1 Majalengka',
                     'publisher' => [
                         '@id' => 'https://smkn1majalengka.sch.id/#organization',
@@ -100,7 +100,7 @@
         <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
                 {{-- Left Text --}}
-                <div class="space-y-6 text-center lg:col-span-7 lg:text-left animate-fade-in-up">
+                <div class="space-y-6 text-center lg:col-span-7 lg:text-left">
                     {{-- Main Headline --}}
                     <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-5xl sm:leading-[1.15] lg:text-5xl">
                         Presensi Digital Akuntabel untuk Kegiatan & Pertemuan Sekolah
@@ -151,7 +151,7 @@
                 </div>
 
                 {{-- Right Interactive Preview Card --}}
-                <div class="lg:col-span-5 animate-fade-in-up animation-delay-200">
+                <div class="lg:col-span-5">
                     <div class="relative mx-auto max-w-md rounded-2xl border border-slate-200/90 bg-white p-6 shadow-xl shadow-slate-200/60 ring-1 ring-slate-900/5 sm:p-8">
                         <div class="flex items-center justify-between border-b border-slate-100 pb-4">
                             <div class="flex items-center gap-3">
@@ -165,7 +165,7 @@
                                     <p class="text-xs text-slate-500">Format Resmi Pertemuan Sekolah</p>
                                 </div>
                             </div>
-                            <span class="rounded-full bg-emerald-100 px-2.5 py-1 text-[11px] font-semibold text-emerald-800">
+                            <span class="rounded-lg border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-800">
                                 Aktif (Terbit)
                             </span>
                         </div>
@@ -230,7 +230,7 @@
 
             <div class="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {{-- Fitur 1 --}}
-                <div class="rounded-2xl border border-slate-200/90 bg-slate-50/50 p-7 transition hover:border-blue-300 hover:bg-white hover:shadow-md animate-fade-in-up">
+                <div class="rounded-2xl border border-slate-200/90 bg-slate-50/50 p-7 transition hover:border-blue-300 hover:bg-white hover:shadow-md">
                     <div class="h-12 w-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold mb-5">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
@@ -243,7 +243,7 @@
                 </div>
 
                 {{-- Fitur 2 --}}
-                <div class="rounded-2xl border border-slate-200/90 bg-slate-50/50 p-7 transition hover:border-blue-300 hover:bg-white hover:shadow-md animate-fade-in-up animation-delay-100">
+                <div class="rounded-2xl border border-slate-200/90 bg-slate-50/50 p-7 transition hover:border-blue-300 hover:bg-white hover:shadow-md">
                     <div class="h-12 w-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-5">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -256,7 +256,7 @@
                 </div>
 
                 {{-- Fitur 3 --}}
-                <div class="rounded-2xl border border-slate-200/90 bg-slate-50/50 p-7 transition hover:border-blue-300 hover:bg-white hover:shadow-md animate-fade-in-up animation-delay-200">
+                <div class="rounded-2xl border border-slate-200/90 bg-slate-50/50 p-7 transition hover:border-blue-300 hover:bg-white hover:shadow-md">
                     <div class="h-12 w-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold mb-5">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -269,7 +269,7 @@
                 </div>
 
                 {{-- Fitur 4 --}}
-                <div class="rounded-2xl border border-slate-200/90 bg-slate-50/50 p-7 transition hover:border-blue-300 hover:bg-white hover:shadow-md animate-fade-in-up animation-delay-100">
+                <div class="rounded-2xl border border-slate-200/90 bg-slate-50/50 p-7 transition hover:border-blue-300 hover:bg-white hover:shadow-md">
                     <div class="h-12 w-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold mb-5">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -282,7 +282,7 @@
                 </div>
 
                 {{-- Fitur 5 --}}
-                <div class="rounded-2xl border border-slate-200/90 bg-slate-50/50 p-7 transition hover:border-blue-300 hover:bg-white hover:shadow-md animate-fade-in-up animation-delay-200">
+                <div class="rounded-2xl border border-slate-200/90 bg-slate-50/50 p-7 transition hover:border-blue-300 hover:bg-white hover:shadow-md">
                     <div class="h-12 w-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold mb-5">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -295,7 +295,7 @@
                 </div>
 
                 {{-- Fitur 6 --}}
-                <div class="rounded-2xl border border-slate-200/90 bg-slate-50/50 p-7 transition hover:border-blue-300 hover:bg-white hover:shadow-md animate-fade-in-up animation-delay-300">
+                <div class="rounded-2xl border border-slate-200/90 bg-slate-50/50 p-7 transition hover:border-blue-300 hover:bg-white hover:shadow-md">
                     <div class="h-12 w-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold mb-5">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -574,7 +574,7 @@
     <section id="faq" class="py-16 sm:py-24 bg-slate-50 border-t border-slate-200/80">
         <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto space-y-3">
-                <span class="inline-flex items-center gap-1.5 rounded-full bg-blue-50 border border-blue-200/60 px-3 py-1 text-xs font-bold text-blue-700">
+                <span class="inline-flex items-center gap-1.5 rounded-lg bg-blue-50 border border-blue-200/60 px-3 py-1 text-xs font-bold text-blue-700">
                     <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
