@@ -152,7 +152,7 @@
 
                 {{-- Right Interactive Preview Card --}}
                 <div class="lg:col-span-5">
-                    <div class="relative mx-auto max-w-md rounded-2xl border border-slate-200/90 bg-white p-6 shadow-xl shadow-slate-200/60 ring-1 ring-slate-900/5 sm:p-8">
+                    <div class="relative mx-auto max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-md ring-1 ring-slate-900/5 sm:p-8">
                         <div class="flex items-center justify-between border-b border-slate-100 pb-4">
                             <div class="flex items-center gap-3">
                                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
@@ -635,7 +635,7 @@
     {{-- ==================== 6. ADOPSI SISTEM UNTUK SEKOLAH LAIN ==================== --}}
     <section id="adopsi" class="py-16 sm:py-24 bg-slate-50 border-t border-slate-200/80">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 p-8 sm:p-12 text-white shadow-xl">
+            <div class="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 p-8 sm:p-12 text-white shadow-md">
                 <div class="relative z-10 grid grid-cols-1 gap-8 lg:grid-cols-12 items-center">
                     <div class="lg:col-span-8 space-y-4">
                         <span class="inline-flex items-center gap-1.5 rounded-md bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">

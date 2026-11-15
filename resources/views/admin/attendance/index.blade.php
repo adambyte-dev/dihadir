@@ -350,7 +350,7 @@
             aria-modal="true"
             aria-labelledby="sig-modal-title"
         >
-            <div class="w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl" @click.away="signatureModalOpen = false">
+            <div class="w-full max-w-md overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg" @click.away="signatureModalOpen = false">
                 <div class="flex items-start justify-between gap-3 border-b border-slate-100 px-5 py-4">
                     <div>
                         <h4 id="sig-modal-title" class="text-[14px] font-bold text-slate-900">Tanda Tangan Digital</h4>

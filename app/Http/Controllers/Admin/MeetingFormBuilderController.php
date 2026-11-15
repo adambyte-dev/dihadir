@@ -85,6 +85,58 @@ class MeetingFormBuilderController extends Controller
     public static function getPredefinedTemplates(): array
     {
         return [
+            'standar_dihadir' => [
+                'title' => 'Formulir Presensi Lengkap (Standar SMKN 1 Majalengka)',
+                'description' => 'Paket lengkap kehadiran resmi: Nama Lengkap, NIP, Unit Kerja, Domisili Kab/Kota, dan Tanda Tangan Digital.',
+                'fields' => [
+                    [
+                        'label' => 'Nama Lengkap & Gelar',
+                        'type' => 'text',
+                        'description' => 'Tuliskan nama lengkap beserta gelar resmi bila ada',
+                        'placeholder' => 'Contoh: Drs. H. Ahmad Subarkah, M.Pd.',
+                        'is_required' => true,
+                    ],
+                    [
+                        'label' => 'Nomor Induk Pegawai (NIP)',
+                        'type' => 'text',
+                        'description' => 'NIP menjadi tanda identitas unik pencegah pengisian presensi ganda',
+                        'placeholder' => 'Contoh: 198501152010011002',
+                        'is_required' => true,
+                    ],
+                    [
+                        'label' => 'Unit Kerja / Asal Instansi',
+                        'type' => 'text',
+                        'description' => 'Tempat tugas atau sekolah induk peserta',
+                        'placeholder' => 'Contoh: SMKN 1 Majalengka',
+                        'is_required' => true,
+                    ],
+                    [
+                        'label' => 'Kabupaten / Kota Domisili Instansi',
+                        'type' => 'select',
+                        'description' => 'Pilih wilayah kabupaten/kota domisili instansi asal',
+                        'placeholder' => null,
+                        'is_required' => true,
+                        'options' => [
+                            'Kabupaten Majalengka',
+                            'Kabupaten Kuningan',
+                            'Kabupaten Cirebon',
+                            'Kota Cirebon',
+                            'Kabupaten Indramayu',
+                            'Kabupaten Sumedang',
+                            'Kabupaten Bandung',
+                            'Kota Bandung',
+                            'Kabupaten Subang',
+                            'Lainnya / Luar Wilayah',
+                        ],
+                    ],
+                    [
+                        'label' => 'Tanda Tangan Digital',
+                        'type' => 'signature',
+                        'description' => 'Bubuhkan tanda tangan langsung melalui layar sentuh atau pointer mouse',
+                        'is_required' => true,
+                    ],
+                ],
+            ],
             'rapat_komite' => [
                 'title' => 'Rapat Pleno Komite & Orang Tua Siswa',
                 'description' => 'Paket pertanyaan pendataan orang tua murid (nama anak, rombel kelas, hubungan keluarga, dan nomor kontak).',

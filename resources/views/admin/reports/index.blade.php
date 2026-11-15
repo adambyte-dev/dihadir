@@ -19,8 +19,8 @@
         </x-page-header>
 
         {{-- Kartu penjelasan format dokumen --}}
-        <section class="overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-sm">
-            <div class="h-[3px] bg-gradient-to-r from-slate-700 via-blue-600 to-sky-400" aria-hidden="true"></div>
+        <section class="overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-xs">
+            <div class="h-[2px] bg-blue-600" aria-hidden="true"></div>
             <div class="grid grid-cols-1 divide-y divide-slate-100 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
                 @foreach ([
                     [
@@ -179,7 +179,7 @@
                                             @keydown.escape.window="showPdfModal = false"
                                         >
                                             <div 
-                                                class="flex h-full max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-slate-700 bg-white shadow-2xl"
+                                                class="flex h-full max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-xl border border-slate-700 bg-white shadow-md"
                                                 @click.away="showPdfModal = false"
                                             >
                                                 {{-- Modal Header --}}

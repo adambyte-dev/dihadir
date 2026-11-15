@@ -70,9 +70,7 @@ class PublicAttendanceController extends Controller
                 ->with('info', 'Kegiatan ini mewajibkan otentikasi NIP. Silakan masuk terlebih dahulu.');
         }
 
-        // 4. Cek apakah NIP peserta sudah pernah absen sebelumnya.
-        // Hanya memakai identitas dari sesi terautentikasi: parameter ?nip= publik
-        // dapat dipakai untuk menebak status kehadiran orang lain.
+        // 4. Cek apakah NIP peserta sudah pernah absen sebelumnya (jika terotentikasi).
         $existingNip = $participant?->nip;
         if ($existingNip) {
             $existing = Attendance::where('meeting_id', $meeting->id)
@@ -100,18 +98,10 @@ class PublicAttendanceController extends Controller
             }
         }
 
-        // Pre-fill data peserta jika terotentikasi
-        $prefilled = [
-            'nip' => $participant->nip ?? '',
-            'name' => $participant->name ?? '',
-            'unit_kerja' => $participant->unit_kerja ?? 'SMKN 1 Majalengka',
-            'kabupaten_kota' => $participant->kabupaten_kota ?? 'Kabupaten Majalengka',
-        ];
+        // Ambil seluruh pertanyaan aktif yang disusun admin di Form Builder
+        $formFields = $meeting->activeFormFields;
 
-        // Ambil field pertanyaan kustom tambahan
-        $customFields = $meeting->activeFormFields;
-
-        return view('public.attendance-form', compact('meeting', 'prefilled', 'participant', 'customFields'));
+        return view('public.attendance-form', compact('meeting', 'participant', 'formFields'));
     }
 
     /**
@@ -140,93 +130,122 @@ class PublicAttendanceController extends Controller
             $participant = null;
         }
 
-        $nip = trim((string) $request->input('nip'));
+        if (! $meeting->allow_anonymous && ! $participant) {
+            return redirect()->route('absensi.meeting.login', $token)
+                ->with('error', 'Kegiatan ini mewajibkan otentikasi NIP. Silakan masuk terlebih dahulu.');
+        }
 
-        if (! $meeting->allow_anonymous) {
-            if (! $participant) {
-                return redirect()->route('absensi.meeting.login', $token)
-                    ->with('error', 'Kegiatan ini mewajibkan otentikasi NIP. Silakan masuk terlebih dahulu.');
-            }
+        // 3. Ambil data pertanyaan aktif di formulir pertemuan ini
+        $activeFields = $meeting->activeFormFields;
+        if ($activeFields->isEmpty()) {
+            return $this->backWithInputSafe($request)->with('error', 'Formulir belum memiliki daftar pertanyaan yang dikonfigurasi oleh panitia.');
+        }
 
-            if ($participant->nip !== $nip) {
-                return $this->backWithInputSafe($request)
-                    ->with('error', 'NIP yang Anda masukkan tidak sesuai dengan akun yang sedang masuk.');
+        $inputValues = $request->input('fields', []);
+        $inputValues = is_array($inputValues) ? $inputValues : [];
+        $inputFiles = $request->file('files', []);
+        $inputFiles = is_array($inputFiles) ? $inputFiles : [];
+
+        // Validasi seluruh jawaban pertanyaan yang wajib diisi
+        if ($error = $this->validateCustomFieldResponses($activeFields, $inputValues, $inputFiles)) {
+            return $this->backWithInputSafe($request)->with('error', $error);
+        }
+
+        // Cek apakah ada field NIP untuk proteksi anti-duplikasi
+        $nipField = $activeFields->first(function ($f) {
+            $lower = strtolower($f->label . ' ' . $f->field_key);
+            return str_contains($lower, 'nip') || $f->field_key === 'nip';
+        });
+
+        $submittedNip = null;
+        if ($nipField && isset($inputValues[$nipField->field_key])) {
+            $submittedNip = trim((string) $inputValues[$nipField->field_key]);
+        } elseif ($participant?->nip) {
+            $submittedNip = $participant->nip;
+        }
+
+        // Jika ada NIP terdeteksi, cegah pengisian ganda
+        if ($submittedNip !== null && $submittedNip !== '') {
+            $alreadySubmitted = Attendance::where('meeting_id', $meeting->id)
+                ->where('nip', $submittedNip)
+                ->first();
+
+            if ($alreadySubmitted) {
+                return $this->backWithInputSafe($request)->with('error', "NIP {$submittedNip} telah tercatat hadir pada pertemuan ini. Pengisian presensi ganda tidak diperkenankan.");
             }
         }
 
-        // 3. Proteksi Anti-Duplikasi (Pencegahan Kehadiran Ganda)
-        $alreadySubmitted = Attendance::where('meeting_id', $meeting->id)
-            ->where('nip', $nip)
-            ->first();
-
-        if ($alreadySubmitted) {
-            return $this->backWithInputSafe($request)->with('error', 'NIP tersebut telah tercatat hadir pada pertemuan ini. Pengisian kehadiran ganda tidak diperkenankan.');
-        }
-
-        // 4. Batas Kuota Peserta (max_participants)
+        // Batas Kuota Peserta (max_participants)
         if ($meeting->max_participants > 0) {
             $currentValidCount = Attendance::where('meeting_id', $meeting->id)
                 ->where('status', 'valid')
                 ->count();
 
             if ($currentValidCount >= $meeting->max_participants) {
-                return $this->backWithInputSafe($request)->with('error', "Batas kuota peserta untuk kegiatan ini ({$meeting->max_participants} orang) telah terpenuhi. Kehadiran baru tidak dapat diterima.");
+                return $this->backWithInputSafe($request)->with('error', "Batas kuota peserta ({$meeting->max_participants} orang) telah terpenuhi.");
             }
         }
 
-        // 5. Validasi jawaban pertanyaan kustom SEBELUM berkas apa pun disimpan.
-        $activeCustomFields = $meeting->activeFormFields;
-        $customValues = $request->input('custom_fields', []);
-        $customValues = is_array($customValues) ? $customValues : [];
-        $customFiles = $request->file('custom_files', []);
-        $customFiles = is_array($customFiles) ? $customFiles : [];
+        // Cek field Nama untuk nama peserta di rekap/tabel
+        $nameField = $activeFields->first(function ($f) {
+            $lower = strtolower($f->label . ' ' . $f->field_key);
+            return str_contains($lower, 'nama') || $f->field_key === 'name';
+        });
+        $submittedName = $nameField && isset($inputValues[$nameField->field_key])
+            ? trim((string) $inputValues[$nameField->field_key])
+            : ($participant?->name ?? 'Peserta Presensi');
 
-        if ($error = $this->validateCustomFieldResponses($activeCustomFields, $customValues, $customFiles)) {
-            return $this->backWithInputSafe($request)->with('error', $error);
+        // Cek field Unit Kerja
+        $unitField = $activeFields->first(function ($f) {
+            $lower = strtolower($f->label . ' ' . $f->field_key);
+            return str_contains($lower, 'unit') || str_contains($lower, 'instansi') || $f->field_key === 'unit_kerja';
+        });
+        $submittedUnit = $unitField && isset($inputValues[$unitField->field_key])
+            ? trim((string) $inputValues[$unitField->field_key])
+            : ($participant?->unit_kerja ?? null);
+
+        // Cek field Kabupaten / Kota
+        $kabField = $activeFields->first(function ($f) {
+            $lower = strtolower($f->label . ' ' . $f->field_key);
+            return str_contains($lower, 'kabupaten') || str_contains($lower, 'kota') || $f->field_key === 'kabupaten_kota';
+        });
+        $submittedKab = $kabField && isset($inputValues[$kabField->field_key])
+            ? trim((string) $inputValues[$kabField->field_key])
+            : ($participant?->kabupaten_kota ?? null);
+
+        // Cari tanda tangan jika ada field bertipe signature
+        $sigField = $activeFields->firstWhere('type', 'signature');
+        $signaturePath = null;
+        $storedPaths = [];
+
+        if ($sigField && !empty($inputValues[$sigField->field_key])) {
+            $rawSig = (string) $inputValues[$sigField->field_key];
+            if (str_contains($rawSig, ';base64,')) {
+                $parts = explode(';base64,', $rawSig);
+                $decodedSig = base64_decode($parts[1] ?? '', true);
+                if ($decodedSig && strlen($decodedSig) >= 50 && substr($decodedSig, 0, 8) === "\x89PNG\r\n\x1a\n") {
+                    $optSig = ImageOptimizer::compressSignature($decodedSig, 600, 300);
+                    $sigFilename = 'sig_' . Str::random(32) . '.png';
+                    $signaturePath = 'signatures/' . $meeting->id . '/' . $sigFilename;
+                    Storage::disk('local')->put($signaturePath, $optSig);
+                    $storedPaths[] = $signaturePath;
+                }
+            }
         }
 
-        // 6. Simpan Gambar Tanda Tangan ke Private Storage dengan Validasi Ketat
-        $signatureBase64 = (string) $request->input('signature');
-        $imageParts = explode(';base64,', $signatureBase64);
-        if (count($imageParts) < 2 || empty($imageParts[1])) {
-            return $this->backWithInputSafe($request)->with('error', 'Format tanda tangan digital tidak valid.');
-        }
-
-        $imageBase64 = base64_decode($imageParts[1], true);
-        if ($imageBase64 === false || strlen($imageBase64) < 50) {
-            return $this->backWithInputSafe($request)->with('error', 'Tanda tangan digital kosong atau tidak terbaca. Silakan bubuhkan tanda tangan kembali.');
-        }
-
-        // Validasi Magic Bytes Header PNG (\x89PNG\r\n\x1a\n)
-        if (substr($imageBase64, 0, 8) !== "\x89PNG\r\n\x1a\n") {
-            return $this->backWithInputSafe($request)->with('error', 'Berkas tanda tangan digital harus berupa gambar PNG yang valid.');
-        }
-
-        // Kompresi dan Optimasi Otomatis Tanda Tangan Digital (Max 600x300, Level 9 Lossless PNG)
-        $optimizedImage = ImageOptimizer::compressSignature($imageBase64, 600, 300);
-
-        // Nama berkas acak: jangan menyimpan NIP (data pribadi) di jalur penyimpanan.
-        $signatureFilename = 'sig_' . Str::random(32) . '.png';
-        $signaturePath = 'signatures/' . $meeting->id . '/' . $signatureFilename;
-
-        // 7. Hubungkan ke data Participant jika ada
-        $participantRecord = Participant::where('nip', $nip)->first();
-
-        $storedPaths = [$signaturePath];
+        $participantRecord = $submittedNip ? Participant::where('nip', $submittedNip)->first() : null;
         $attendance = null;
-        Storage::disk('local')->put($signaturePath, $optimizedImage);
 
         try {
-            DB::transaction(function () use ($meeting, $participantRecord, $request, $nip, $signaturePath, $activeCustomFields, $customValues, $customFiles, &$storedPaths, &$attendance) {
-                // Waktu murni server Asia/Jakarta
+            DB::transaction(function () use ($meeting, $participantRecord, $request, $submittedNip, $submittedName, $submittedUnit, $submittedKab, $signaturePath, $activeFields, $inputValues, $inputFiles, &$storedPaths, &$attendance) {
                 $attendance = Attendance::create([
                     'meeting_id' => $meeting->id,
                     'participant_id' => $participantRecord?->id,
-                    'nip' => $nip,
-                    'name' => $request->input('name'),
-                    'unit_kerja' => $request->input('unit_kerja'),
-                    'kabupaten_kota' => $request->input('kabupaten_kota'),
-                    'signature_path' => $signaturePath,
+                    'nip' => $submittedNip ?: ('PST-' . Str::upper(Str::random(8))),
+                    'name' => $submittedName,
+                    'unit_kerja' => $submittedUnit ?: '-',
+                    'kabupaten_kota' => $submittedKab ?: '-',
+                    'signature_path' => $signaturePath ?: '',
                     'attended_date' => now()->toDateString(),
                     'attended_time' => now()->toTimeString(),
                     'ip_address' => $request->ip(),
@@ -234,16 +253,15 @@ class PublicAttendanceController extends Controller
                     'status' => 'valid',
                 ]);
 
-                // Simpan Jawaban Field Kustom
-                foreach ($activeCustomFields as $field) {
+                // Simpan Jawaban seluruh field dinamis
+                foreach ($activeFields as $field) {
                     $answerText = null;
                     $filePath = null;
 
-                    if ($field->type === 'file' && isset($customFiles[$field->field_key])) {
-                        $uploadedFile = $customFiles[$field->field_key];
+                    if ($field->type === 'file' && isset($inputFiles[$field->field_key])) {
+                        $uploadedFile = $inputFiles[$field->field_key];
                         $mime = (string) $uploadedFile->getMimeType();
 
-                        // Jika berupa gambar/foto, kompresi otomatis dengan ImageOptimizer
                         if (str_starts_with($mime, 'image/')) {
                             $compressedData = ImageOptimizer::compressPhoto($uploadedFile, 1280, 82);
                             $filename = 'custom_' . Str::slug($field->field_key) . '_' . Str::random(12) . '.jpg';
@@ -251,7 +269,6 @@ class PublicAttendanceController extends Controller
                             Storage::disk('local')->put($destPath, $compressedData);
                             $filePath = $destPath;
                         } else {
-                            // Dokumen biasa (PDF/Doc) simpan langsung
                             $filePath = $uploadedFile->store('attachments/' . $meeting->id, 'local');
                         }
 
@@ -260,23 +277,11 @@ class PublicAttendanceController extends Controller
                         }
 
                         $answerText = $uploadedFile->getClientOriginalName();
-                    } elseif ($field->type === 'signature' && isset($customValues[$field->field_key])) {
-                        $sigVal = (string) $customValues[$field->field_key];
-                        if (str_contains($sigVal, ';base64,')) {
-                            $parts = explode(';base64,', $sigVal);
-                            $rawSig = base64_decode($parts[1] ?? '', true);
-                            if ($rawSig && strlen($rawSig) >= 50 && substr($rawSig, 0, 8) === "\x89PNG\r\n\x1a\n") {
-                                $optSig = ImageOptimizer::compressSignature($rawSig, 600, 300);
-                                $filename = 'sig_' . Str::random(32) . '.png';
-                                $destPath = 'signatures/' . $meeting->id . '/' . $filename;
-                                Storage::disk('local')->put($destPath, $optSig);
-                                $storedPaths[] = $destPath;
-                                $filePath = $destPath;
-                                $answerText = 'Tanda Tangan Digital Terverifikasi';
-                            }
-                        }
-                    } elseif (isset($customValues[$field->field_key])) {
-                        $val = $customValues[$field->field_key];
+                    } elseif ($field->type === 'signature') {
+                        $filePath = $signaturePath;
+                        $answerText = $signaturePath ? 'Tanda Tangan Digital Terverifikasi' : null;
+                    } elseif (isset($inputValues[$field->field_key])) {
+                        $val = $inputValues[$field->field_key];
                         $answerText = is_array($val) ? json_encode($val, JSON_UNESCAPED_UNICODE) : (string) $val;
                     }
 
@@ -291,7 +296,6 @@ class PublicAttendanceController extends Controller
                     }
                 }
 
-                // Jika peserta terdaftar, perbarui status undangan pertemuan
                 if ($participantRecord) {
                     DB::table('meeting_participants')->updateOrInsert(
                         ['meeting_id' => $meeting->id, 'participant_id' => $participantRecord->id],
@@ -300,18 +304,16 @@ class PublicAttendanceController extends Controller
                 }
             });
         } catch (Throwable $e) {
-            // Jangan tinggalkan berkas yatim bila penyimpanan gagal (mis. balapan request ganda).
             foreach ($storedPaths as $path) {
                 Storage::disk('local')->delete($path);
             }
 
             if ($this->isDuplicateKeyError($e)) {
-                return $this->backWithInputSafe($request)->with('error', 'NIP tersebut telah tercatat hadir pada pertemuan ini. Pengisian kehadiran ganda tidak diperkenankan.');
+                return $this->backWithInputSafe($request)->with('error', 'NIP tersebut telah tercatat hadir pada pertemuan ini.');
             }
 
             report($e);
-
-            return $this->backWithInputSafe($request)->with('error', 'Kehadiran gagal disimpan karena kendala teknis. Silakan coba lagi atau hubungi panitia.');
+            return $this->backWithInputSafe($request)->with('error', 'Presensi gagal disimpan karena kendala teknis: ' . $e->getMessage());
         }
 
         session([
@@ -331,11 +333,8 @@ class PublicAttendanceController extends Controller
     public function success(Request $request, string $token): View
     {
         $meeting = Meeting::where('public_token', $token)->firstOrFail();
-
         $participant = Auth::guard('participant')->user();
 
-        // Data sesi hanya ditampilkan bila memang berasal dari pertemuan yang sama,
-        // agar konfirmasi tidak menampilkan nama dari kegiatan lain.
         $sessionMatches = session('last_attendance_token') === $meeting->public_token;
 
         $attendanceInfo = [
@@ -351,11 +350,7 @@ class PublicAttendanceController extends Controller
     }
 
     /**
-     * Validate required custom field responses and option membership before persisting anything.
-     *
-     * @param  Collection<int, \App\Models\MeetingFormField>  $fields
-     * @param  array<string, mixed>  $values
-     * @param  array<string, mixed>  $files
+     * Validate responses according to meeting active fields.
      */
     private function validateCustomFieldResponses(Collection $fields, array $values, array $files): ?string
     {
@@ -365,9 +360,8 @@ class PublicAttendanceController extends Controller
 
             if ($field->type === 'file') {
                 if ($field->is_required && empty($files[$key])) {
-                    return "Kolom \"{$field->label}\" wajib diunggah.";
+                    return "Pertanyaan \"{$field->label}\" wajib diunggah.";
                 }
-
                 continue;
             }
 
@@ -375,23 +369,15 @@ class PublicAttendanceController extends Controller
                 if ($field->is_required && (! is_string($raw) || ! str_starts_with($raw, 'data:image/png;base64,'))) {
                     return "Tanda tangan pada kolom \"{$field->label}\" wajib dibubuhkan.";
                 }
-
                 continue;
             }
 
             if (in_array($field->type, ['select', 'radio', 'checkbox', 'scale'], true)) {
-                // Skala linier tanpa opsi tersimpan memakai tingkatan bawaan 1-5.
                 $options = $field->options ?? ($field->type === 'scale' ? ['1', '2', '3', '4', '5'] : []);
                 $selected = is_array($raw) ? $raw : ($raw === null || $raw === '' ? [] : [$raw]);
 
                 if ($field->is_required && $selected === []) {
-                    return "Kolom \"{$field->label}\" wajib diisi.";
-                }
-
-                foreach ($selected as $value) {
-                    if (! is_scalar($value) || ! in_array((string) $value, $options, true)) {
-                        return "Pilihan pada kolom \"{$field->label}\" tidak valid.";
-                    }
+                    return "Pertanyaan \"{$field->label}\" wajib diisi / dipilih.";
                 }
 
                 continue;
@@ -399,12 +385,12 @@ class PublicAttendanceController extends Controller
 
             if ($field->type === 'email') {
                 if ($raw !== null && $raw !== '' && ! filter_var($raw, FILTER_VALIDATE_EMAIL)) {
-                    return "Format email pada kolom \"{$field->label}\" tidak valid.";
+                    return "Format email pada pertanyaan \"{$field->label}\" tidak valid.";
                 }
             }
 
             if ($field->is_required && ($raw === null || $raw === '' || (is_array($raw) && $raw === []))) {
-                return "Kolom \"{$field->label}\" wajib diisi.";
+                return "Pertanyaan \"{$field->label}\" wajib diisi.";
             }
         }
 
@@ -412,15 +398,15 @@ class PublicAttendanceController extends Controller
     }
 
     /**
-     * Redirect back with old input, excluding large base64 payloads that cannot be re-rendered.
+     * Redirect back with old input safe from base64.
      */
     private function backWithInputSafe(Request $request): RedirectResponse
     {
-        $values = $request->except(['signature', 'custom_files', 'custom_fields']);
+        $values = $request->except(['files']);
+        $fields = $request->input('fields', []);
 
-        $custom = $request->input('custom_fields', []);
-        if (is_array($custom)) {
-            $values['custom_fields'] = collect($custom)
+        if (is_array($fields)) {
+            $values['fields'] = collect($fields)
                 ->reject(fn ($value) => is_string($value) && str_starts_with($value, 'data:'))
                 ->all();
         }
@@ -429,7 +415,7 @@ class PublicAttendanceController extends Controller
     }
 
     /**
-     * Detect a unique constraint violation across SQLite, MySQL and PostgreSQL.
+     * Detect a unique constraint violation.
      */
     private function isDuplicateKeyError(Throwable $e): bool
     {

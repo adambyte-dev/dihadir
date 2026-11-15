@@ -23,16 +23,16 @@
                 </h2>
                 <div class="mt-2 flex flex-wrap items-center gap-2">
                     @if ($meeting->form_status === 'published')
-                        <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700 ring-1 ring-inset ring-emerald-600/20">
-                            <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span class="inline-flex items-center gap-1.5 rounded-md bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700 border border-emerald-200">
+                            <span class="h-2 w-2 rounded-full bg-emerald-600"></span>
                             Formulir Dibuka (Menerima Kehadiran)
                         </span>
                     @elseif ($meeting->form_status === 'closed')
-                        <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-600 ring-1 ring-inset ring-slate-200">
+                        <span class="inline-flex items-center rounded-md bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-600 border border-slate-200">
                             Formulir Ditutup
                         </span>
                     @else
-                        <span class="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700 ring-1 ring-inset ring-amber-600/20">
+                        <span class="inline-flex items-center rounded-md bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700 border border-amber-200">
                             Formulir Draf (Belum Terbit)
                         </span>
                     @endif

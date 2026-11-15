@@ -207,7 +207,7 @@
             aria-modal="true"
             aria-labelledby="import-modal-title"
         >
-            <div class="w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl" @click.away="showImportModal = false">
+            <div class="w-full max-w-md overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg" @click.away="showImportModal = false">
                 <div class="h-1 bg-blue-600" aria-hidden="true"></div>
 
                 <div class="p-6">

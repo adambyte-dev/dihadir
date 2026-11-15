@@ -71,16 +71,16 @@
     </div>
 
     <!-- Lembar Standee Cetak A4 -->
-    <div class="print-standee max-w-xl mx-auto bg-white rounded-2xl border-2 border-slate-900 shadow-xl overflow-hidden text-center">
+    <div class="print-standee max-w-xl mx-auto bg-white rounded-xl border border-slate-900 shadow-sm overflow-hidden text-center">
         
         <!-- Header Banner Standee -->
-        <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white p-7">
+        <div class="bg-slate-900 text-white p-7 border-b border-slate-800">
             <div class="flex items-center justify-center gap-3.5 mb-3">
-                <div class="bg-white rounded-xl p-1.5 shadow-md">
+                <div class="bg-white rounded-lg p-1.5 shadow-xs">
                     <img src="{{ asset('images/logo-smkn1majalengka.webp') }}" alt="SMKN 1 Majalengka" class="h-12 w-12 object-contain">
                 </div>
                 <div class="h-8 w-px bg-white/20"></div>
-                <div class="bg-white rounded-xl px-2.5 py-1.5 shadow-md">
+                <div class="bg-white rounded-lg px-2.5 py-1.5 shadow-xs">
                     <img src="{{ asset('images/logo-dihadir-full-trimmed.webp') }}" alt="DIHADIR" class="h-7 w-auto object-contain">
                 </div>
             </div>
@@ -92,15 +92,15 @@
 
         <!-- Badan QR Standee -->
         <div class="p-8 sm:p-10 space-y-6">
-            <div class="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3.5 py-1 border border-blue-200">
-                <svg class="w-4 h-4 text-blue-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="inline-flex items-center gap-2 rounded-md bg-blue-50 px-3 py-1 border border-blue-200">
+                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
                 </svg>
                 <span class="text-xs font-bold uppercase tracking-wider text-blue-800">Pindai Menggunakan Kamera HP</span>
             </div>
 
             <!-- Frame Box QR Code Besar -->
-            <div class="mx-auto w-72 sm:w-80 p-5 rounded-2xl bg-white border-2 border-dashed border-slate-300 shadow-sm flex items-center justify-center">
+            <div class="mx-auto w-72 sm:w-80 p-5 rounded-xl bg-white border border-slate-300 shadow-xs flex items-center justify-center">
                 <img
                     src="{{ route('admin.pertemuan.qr', ['meeting' => $meeting, 'size' => 450, 'v' => 2]) }}"
                     alt="QR Code {{ $meeting->title }}"
@@ -110,25 +110,25 @@
 
             <!-- Instruksi Peserta 3 Langkah -->
             <div class="grid grid-cols-3 gap-3 text-left pt-2">
-                <div class="rounded-xl bg-slate-50 border border-slate-200 p-3 text-center">
-                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white mb-1.5">1</span>
+                <div class="rounded-lg bg-slate-50 border border-slate-200 p-3 text-center">
+                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-md bg-blue-600 text-[11px] font-bold text-white mb-1.5">1</span>
                     <p class="text-xs font-bold text-slate-800">Scan QR</p>
                     <p class="text-[10.5px] text-slate-500 leading-tight mt-0.5">Buka kamera HP atau pemindai QR.</p>
                 </div>
-                <div class="rounded-xl bg-slate-50 border border-slate-200 p-3 text-center">
-                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white mb-1.5">2</span>
+                <div class="rounded-lg bg-slate-50 border border-slate-200 p-3 text-center">
+                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-md bg-blue-600 text-[11px] font-bold text-white mb-1.5">2</span>
                     <p class="text-xs font-bold text-slate-800">Isi Formulir</p>
                     <p class="text-[10.5px] text-slate-500 leading-tight mt-0.5">Lengkapi identitas & instansi asal.</p>
                 </div>
-                <div class="rounded-xl bg-slate-50 border border-slate-200 p-3 text-center">
-                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white mb-1.5">3</span>
+                <div class="rounded-lg bg-slate-50 border border-slate-200 p-3 text-center">
+                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-md bg-blue-600 text-[11px] font-bold text-white mb-1.5">3</span>
                     <p class="text-xs font-bold text-slate-800">Tanda Tangan</p>
                     <p class="text-[10.5px] text-slate-500 leading-tight mt-0.5">Bubuhkan tanda tangan langsung di HP.</p>
                 </div>
             </div>
 
             <!-- Detail Pelaksanaan -->
-            <div class="rounded-xl bg-slate-50 border border-slate-200/90 p-3.5 text-xs text-slate-700">
+            <div class="rounded-lg bg-slate-50 border border-slate-200/90 p-3.5 text-xs text-slate-700">
                 <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 font-medium">
                     <span><strong>Hari:</strong> {{ $meeting->meeting_date?->translatedFormat('l, d F Y') }}</span>
                     <span>&bull;</span>
@@ -148,7 +148,7 @@
         <!-- Footer Standee -->
         <div class="bg-slate-900 text-white/80 py-3 px-6 text-[10.5px] flex items-center justify-between border-t border-slate-800">
             <span>SMK Negeri 1 Majalengka</span>
-            <span>DIHADIR — Digital Attendance Management System</span>
+            <span>DIHADIR - Digital Attendance Management System</span>
         </div>
     </div>
 </body>

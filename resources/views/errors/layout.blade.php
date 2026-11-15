@@ -23,7 +23,7 @@
             </div>
 
             {{-- Card Container --}}
-            <div class="rounded-2xl border border-slate-200/90 bg-white p-8 shadow-xl shadow-slate-900/5 sm:p-10">
+            <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm sm:p-10">
                 {{-- Status Code Badge --}}
                 <div class="mx-auto mb-4 inline-flex items-center justify-center rounded-xl bg-blue-50 px-3.5 py-1.5 ring-1 ring-inset ring-blue-200/70">
                     <span class="text-xs font-bold tracking-wider text-blue-700 uppercase">Status @yield('code')</span>
