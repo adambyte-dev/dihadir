@@ -368,75 +368,113 @@
         </div>
 
         {{-- ============ RINGKASAN + INFORMASI ============ --}}
-        <div class="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] xl:gap-6">
+        <div class="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1.2fr)] xl:gap-6">
             {{-- Donut ringkasan --}}
-            <section class="overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-sm">
-                <div class="flex items-center gap-2.5 border-b border-slate-100 px-4 py-3.5 sm:px-5">
-                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
-                        </svg>
-                    </span>
-                    <h3 class="text-[13.5px] font-bold leading-snug text-slate-900">Ringkasan Kehadiran</h3>
+            <section class="flex flex-col justify-between overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-sm">
+                <div>
+                    <div class="flex items-center justify-between border-b border-slate-100 px-4 py-3.5 sm:px-5">
+                        <div class="flex items-center gap-2.5">
+                            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <h3 class="text-[13.5px] font-bold leading-snug text-slate-900">Ringkasan Kehadiran</h3>
+                                <p class="text-[11px] text-slate-500">Distribusi status verifikasi presensi.</p>
+                            </div>
+                        </div>
+                        <a href="{{ route('admin.rekap.index') }}" class="text-[11px] font-semibold text-blue-600 hover:text-blue-700">Detail Rekap &rarr;</a>
+                    </div>
+
+                    @if ($totalSubmissions > 0)
+                        <div class="p-4 sm:p-5">
+                            <div class="flex flex-col items-center gap-5 sm:flex-row sm:items-center">
+                                <div class="relative shrink-0">
+                                    <svg viewBox="0 0 140 140" class="h-[128px] w-[128px] -rotate-90" role="img" aria-label="Diagram donat komposisi status kehadiran">
+                                        <circle cx="70" cy="70" r="{{ $donutR }}" fill="none" stroke="#F1F5F9" stroke-width="16"/>
+                                        @foreach ($donutSegments as $seg)
+                                            @if ($seg['count'] > 0)
+                                                <circle
+                                                    cx="70" cy="70" r="{{ $donutR }}"
+                                                    fill="none"
+                                                    stroke="{{ $seg['color'] }}"
+                                                    stroke-width="16"
+                                                    stroke-dasharray="{{ $seg['dash'] }} {{ $seg['gap'] }}"
+                                                    stroke-dashoffset="{{ $seg['offset'] }}"
+                                                    stroke-linecap="butt"
+                                                />
+                                            @endif
+                                        @endforeach
+                                    </svg>
+                                    <div class="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+                                        <span class="tabular text-[20px] font-extrabold leading-none text-slate-900">
+                                            {{ number_format(($breakdown['valid'] / $totalSubmissions) * 100, 1) }}%
+                                        </span>
+                                        <span class="mt-0.5 text-[10px] font-bold uppercase tracking-[0.06em] text-slate-500">Hadir</span>
+                                    </div>
+                                </div>
+
+                                <dl class="w-full min-w-0 space-y-2.5">
+                                    @foreach ($donutSegments as $seg)
+                                        <div class="flex items-center justify-between gap-3 border-b border-slate-100 pb-2 last:border-0 last:pb-0">
+                                            <dt class="flex min-w-0 items-center gap-2">
+                                                <span class="h-2.5 w-2.5 shrink-0 rounded-full" style="background-color: {{ $seg['color'] }};" aria-hidden="true"></span>
+                                                <span class="truncate text-[12px] font-medium text-slate-700">{{ $seg['label'] }}</span>
+                                            </dt>
+                                            <dd class="tabular shrink-0 text-[12.5px] font-bold text-slate-900">{{ number_format($seg['count']) }}</dd>
+                                        </div>
+                                    @endforeach
+                                    <div class="flex items-center justify-between gap-3 pt-1 border-t border-slate-200">
+                                        <dt class="text-[11px] font-bold uppercase tracking-[0.06em] text-slate-500">Total Respons</dt>
+                                        <dd class="tabular text-[13px] font-extrabold text-slate-900">{{ number_format($totalSubmissions) }}</dd>
+                                    </div>
+                                </dl>
+                            </div>
+
+                            {{-- Mini metrik bar pengisi ruang bawah agar tidak kopong --}}
+                            <div class="mt-5 grid grid-cols-3 gap-2 border-t border-slate-100 pt-4 text-center">
+                                <div class="rounded-lg bg-emerald-50/60 p-2.5 border border-emerald-100/60">
+                                    <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-700">Valid</p>
+                                    <p class="tabular text-sm font-extrabold text-emerald-900 mt-0.5">{{ number_format($breakdown['valid']) }}</p>
+                                    <p class="text-[10px] text-emerald-600 mt-0.5">{{ $totalSubmissions > 0 ? round(($breakdown['valid'] / $totalSubmissions) * 100) : 0 }}%</p>
+                                </div>
+                                <div class="rounded-lg bg-amber-50/60 p-2.5 border border-amber-100/60">
+                                    <p class="text-[10px] font-bold uppercase tracking-wider text-amber-700">Ditandai</p>
+                                    <p class="tabular text-sm font-extrabold text-amber-900 mt-0.5">{{ number_format($breakdown['flagged']) }}</p>
+                                    <p class="text-[10px] text-amber-600 mt-0.5">{{ $totalSubmissions > 0 ? round(($breakdown['flagged'] / $totalSubmissions) * 100) : 0 }}%</p>
+                                </div>
+                                <div class="rounded-lg bg-rose-50/60 p-2.5 border border-rose-100/60">
+                                    <p class="text-[10px] font-bold uppercase tracking-wider text-rose-700">Batal</p>
+                                    <p class="tabular text-sm font-extrabold text-rose-900 mt-0.5">{{ number_format($breakdown['cancelled']) }}</p>
+                                    <p class="text-[10px] text-rose-600 mt-0.5">{{ $totalSubmissions > 0 ? round(($breakdown['cancelled'] / $totalSubmissions) * 100) : 0 }}%</p>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="px-5 py-12 text-center">
+                            <div class="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-lg bg-slate-100 text-slate-500 ring-1 ring-inset ring-slate-200">
+                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
+                                </svg>
+                            </div>
+                            <h4 class="text-[13.5px] font-bold text-slate-900">Belum Ada Respons Kehadiran</h4>
+                            <p class="mx-auto mt-1 max-w-xs text-[11.5px] leading-relaxed text-slate-500">
+                                Ringkasan akan tampil setelah peserta mengirimkan formulir absensi pada pertemuan yang terbit.
+                            </p>
+                        </div>
+                    @endif
                 </div>
 
-                @if ($totalSubmissions > 0)
-                    <div class="flex flex-col items-center gap-5 p-4 sm:flex-row sm:items-center sm:p-5">
-                        <div class="relative shrink-0">
-                            <svg viewBox="0 0 140 140" class="h-[132px] w-[132px] -rotate-90" role="img" aria-label="Diagram donat komposisi status kehadiran">
-                                <circle cx="70" cy="70" r="{{ $donutR }}" fill="none" stroke="#F1F5F9" stroke-width="16"/>
-                                @foreach ($donutSegments as $seg)
-                                    @if ($seg['count'] > 0)
-                                        <circle
-                                            cx="70" cy="70" r="{{ $donutR }}"
-                                            fill="none"
-                                            stroke="{{ $seg['color'] }}"
-                                            stroke-width="16"
-                                            stroke-dasharray="{{ $seg['dash'] }} {{ $seg['gap'] }}"
-                                            stroke-dashoffset="{{ $seg['offset'] }}"
-                                            stroke-linecap="butt"
-                                        />
-                                    @endif
-                                @endforeach
-                            </svg>
-                            <div class="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-                                <span class="tabular text-[20px] font-extrabold leading-none text-slate-900">
-                                    {{ number_format(($breakdown['valid'] / $totalSubmissions) * 100, 1) }}%
-                                </span>
-                                <span class="mt-0.5 text-[10px] font-bold uppercase tracking-[0.06em] text-slate-500">Hadir</span>
-                            </div>
-                        </div>
-
-                        <dl class="w-full min-w-0 space-y-2">
-                            @foreach ($donutSegments as $seg)
-                                <div class="flex items-center justify-between gap-3 border-b border-slate-100 pb-2 last:border-0 last:pb-0">
-                                    <dt class="flex min-w-0 items-center gap-2">
-                                        <span class="h-2.5 w-2.5 shrink-0 rounded-sm" style="background-color: {{ $seg['color'] }};" aria-hidden="true"></span>
-                                        <span class="truncate text-[11.5px] font-medium text-slate-600">{{ $seg['label'] }}</span>
-                                    </dt>
-                                    <dd class="tabular shrink-0 text-[12px] font-bold text-slate-900">{{ number_format($seg['count']) }}</dd>
-                                </div>
-                            @endforeach
-                            <div class="flex items-center justify-between gap-3 pt-1">
-                                <dt class="text-[11px] font-bold uppercase tracking-[0.06em] text-slate-500">Total Respons</dt>
-                                <dd class="tabular text-[12px] font-extrabold text-slate-900">{{ number_format($totalSubmissions) }}</dd>
-                            </div>
-                        </dl>
-                    </div>
-                @else
-                    <div class="px-5 py-12 text-center">
-                        <div class="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-lg bg-slate-100 text-slate-500 ring-1 ring-inset ring-slate-200">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
-                            </svg>
-                        </div>
-                        <h4 class="text-[13.5px] font-bold text-slate-900">Belum Ada Respons Kehadiran</h4>
-                        <p class="mx-auto mt-1 max-w-xs text-[11.5px] leading-relaxed text-slate-500">
-                            Ringkasan akan tampil setelah peserta mengirimkan formulir absensi pada pertemuan yang terbit.
-                        </p>
-                    </div>
-                @endif
+                {{-- Footer card --}}
+                <div class="border-t border-slate-100 bg-slate-50/70 px-4 py-2.5 text-xs text-slate-500 flex items-center justify-between">
+                    <span class="inline-flex items-center gap-1.5 text-[11px]">
+                        <span class="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
+                        Data real-time terenkripsi
+                    </span>
+                    <a href="{{ route('admin.laporan.index') }}" class="text-[11px] font-semibold text-slate-700 hover:text-blue-600">Ekspor Laporan</a>
+                </div>
             </section>
 
             {{-- Informasi --}}
