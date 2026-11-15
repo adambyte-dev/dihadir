@@ -17,15 +17,16 @@
     $selectedValue = old($name, $value);
     
     // Support options as associative [value => label] or indexed ['A', 'B']
+    $isList = is_array($options) && array_is_list($options);
     $optionsMap = [];
     foreach ($options as $key => $opt) {
-        if (is_numeric($key)) {
-            $optionsMap[$opt] = $opt;
+        if ($isList) {
+            $optionsMap[(string) $opt] = (string) $opt;
         } else {
-            $optionsMap[$key] = $opt;
+            $optionsMap[(string) $key] = (string) $opt;
         }
     }
-    $initialLabel = $optionsMap[$selectedValue] ?? $placeholder;
+    $initialLabel = $optionsMap[(string) $selectedValue] ?? $placeholder;
     $heightClass = match($size) {
         'sm' => 'min-h-[36px] py-1.5 px-3 text-xs',
         'lg' => 'min-h-[46px] py-2.5 px-4 text-sm',

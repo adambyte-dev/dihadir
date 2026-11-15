@@ -91,7 +91,9 @@
                     <div>
                         <h2 class="text-[15px] font-bold text-slate-900">Data Kehadiran Peserta</h2>
                         <p class="text-[11px] text-slate-500">
-                            @if ($formFields->isNotEmpty())
+                            @if (isset($participant) && $participant)
+                                Terotentikasi sebagai <span class="font-semibold text-slate-800">{{ $participant->name }}</span> (NIP: {{ $participant->nip }}).
+                            @elseif ($formFields->isNotEmpty())
                                 Isi seluruh data bertanda <span class="font-semibold text-red-500">*</span> sebelum mengirim.
                             @else
                                 Belum ada pertanyaan yang dikonfigurasi pada formulir ini.

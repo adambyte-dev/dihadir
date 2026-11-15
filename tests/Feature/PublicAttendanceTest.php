@@ -40,6 +40,16 @@ class PublicAttendanceTest extends TestCase
             'allow_anonymous' => true,
             'created_by' => $this->admin->id,
         ]);
+
+        // Default signature field for public attendance
+        $this->meeting->formFields()->create([
+            'field_key' => 'signature',
+            'label' => 'Tanda Tangan Digital',
+            'type' => 'signature',
+            'is_required' => true,
+            'order_index' => 1,
+            'is_active' => true,
+        ]);
     }
 
     public function test_public_attendance_form_renders_successfully_for_published_meeting(): void

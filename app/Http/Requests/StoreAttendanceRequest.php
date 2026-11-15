@@ -27,7 +27,10 @@ class StoreAttendanceRequest extends FormRequest
             'name' => ['nullable', 'string', 'max:255'],
             'unit_kerja' => ['nullable', 'string', 'max:255'],
             'kabupaten_kota' => ['nullable', 'string', 'max:255'],
-            'signature' => ['nullable', 'string', 'max:500000'],
+            'signature' => ['nullable', 'string', 'starts_with:data:image/png;base64,', 'max:500000'],
+            'fields' => ['nullable', 'array'],
+            'fields.*' => ['nullable'],
+            'files' => ['nullable', 'array'],
             'custom_fields' => ['nullable', 'array'],
             'custom_fields.*' => ['nullable'],
             'custom_files' => ['nullable', 'array'],
@@ -41,6 +44,8 @@ class StoreAttendanceRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'signature.starts_with' => 'Format tanda tangan digital tidak valid. Silakan ulangi tanda tangan.',
+            'signature.max' => 'Ukuran tanda tangan digital melebihi batas wajar.',
             'custom_files.*.max' => 'Ukuran berkas lampiran maksimal 5 MB.',
             'custom_files.*.mimes' => 'Format lampiran harus berupa gambar (JPG/PNG/WebP), PDF, DOC, atau DOCX.',
         ];

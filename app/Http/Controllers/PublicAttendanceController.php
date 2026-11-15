@@ -101,7 +101,15 @@ class PublicAttendanceController extends Controller
         // Ambil seluruh pertanyaan aktif yang disusun admin di Form Builder
         $formFields = $meeting->activeFormFields;
 
-        return view('public.attendance-form', compact('meeting', 'participant', 'formFields'));
+        // Prefill values jika peserta sudah terotentikasi
+        $prefilled = [
+            'nip' => $participant->nip ?? '',
+            'name' => $participant->name ?? '',
+            'unit_kerja' => $participant->unit_kerja ?? 'SMKN 1 Majalengka',
+            'kabupaten_kota' => $participant->kabupaten_kota ?? 'Kabupaten Majalengka',
+        ];
+
+        return view('public.attendance-form', compact('meeting', 'participant', 'formFields', 'prefilled'));
     }
 
     /**
@@ -137,18 +145,53 @@ class PublicAttendanceController extends Controller
 
         // 3. Ambil data pertanyaan aktif di formulir pertemuan ini
         $activeFields = $meeting->activeFormFields;
-        if ($activeFields->isEmpty()) {
-            return $this->backWithInputSafe($request)->with('error', 'Formulir belum memiliki daftar pertanyaan yang dikonfigurasi oleh panitia.');
-        }
 
+        // Mendukung baik input terstruktur dinamis (fields[...]), custom_fields[...], maupun input formulir langsung (name, nip, ...)
         $inputValues = $request->input('fields', []);
         $inputValues = is_array($inputValues) ? $inputValues : [];
+        $customValues = $request->input('custom_fields', []);
+        if (is_array($customValues)) {
+            $inputValues = array_merge($customValues, $inputValues);
+        }
         $inputFiles = $request->file('files', []);
         $inputFiles = is_array($inputFiles) ? $inputFiles : [];
+        $customFiles = $request->file('custom_files', []);
+        if (is_array($customFiles)) {
+            $inputFiles = array_merge($customFiles, $inputFiles);
+        }
 
-        // Validasi seluruh jawaban pertanyaan yang wajib diisi
-        if ($error = $this->validateCustomFieldResponses($activeFields, $inputValues, $inputFiles)) {
-            return $this->backWithInputSafe($request)->with('error', $error);
+        // Fallback kompatibilitas: jika ada input langsung di request, petakan ke field dinamis terkait
+        $mappedDefaults = [
+            'name' => ['nama_lengkap', 'nama', 'name'],
+            'nip' => ['nomor_induk_pegawai', 'nip'],
+            'unit_kerja' => ['unit_kerja', 'instansi'],
+            'kabupaten_kota' => ['kabupaten_kota', 'kabupaten', 'kota'],
+            'signature' => ['tanda_tangan', 'signature'],
+        ];
+
+        foreach ($mappedDefaults as $directKey => $aliases) {
+            if ($request->filled($directKey)) {
+                $val = $request->input($directKey);
+                $inputValues[$directKey] = $val;
+
+                // Petakan juga ke matching field_key pada activeFields
+                foreach ($activeFields as $af) {
+                    $k = strtolower($af->field_key);
+                    foreach ($aliases as $alias) {
+                        if (str_contains($k, $alias) && !isset($inputValues[$af->field_key])) {
+                            $inputValues[$af->field_key] = $val;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Validasi seluruh jawaban pertanyaan yang wajib diisi jika form fields dikonfigurasi
+        if ($activeFields->isNotEmpty()) {
+            if ($error = $this->validateCustomFieldResponses($activeFields, $inputValues, $inputFiles)) {
+                return $this->backWithInputSafe($request)->with('error', $error);
+            }
         }
 
         // Cek apakah ada field NIP untuk proteksi anti-duplikasi
@@ -160,6 +203,8 @@ class PublicAttendanceController extends Controller
         $submittedNip = null;
         if ($nipField && isset($inputValues[$nipField->field_key])) {
             $submittedNip = trim((string) $inputValues[$nipField->field_key]);
+        } elseif (isset($inputValues['nip'])) {
+            $submittedNip = trim((string) $inputValues['nip']);
         } elseif ($participant?->nip) {
             $submittedNip = $participant->nip;
         }
@@ -193,7 +238,7 @@ class PublicAttendanceController extends Controller
         });
         $submittedName = $nameField && isset($inputValues[$nameField->field_key])
             ? trim((string) $inputValues[$nameField->field_key])
-            : ($participant?->name ?? 'Peserta Presensi');
+            : (isset($inputValues['name']) ? trim((string) $inputValues['name']) : ($participant?->name ?? 'Peserta Presensi'));
 
         // Cek field Unit Kerja
         $unitField = $activeFields->first(function ($f) {
@@ -202,7 +247,7 @@ class PublicAttendanceController extends Controller
         });
         $submittedUnit = $unitField && isset($inputValues[$unitField->field_key])
             ? trim((string) $inputValues[$unitField->field_key])
-            : ($participant?->unit_kerja ?? null);
+            : (isset($inputValues['unit_kerja']) ? trim((string) $inputValues['unit_kerja']) : ($participant?->unit_kerja ?? null));
 
         // Cek field Kabupaten / Kota
         $kabField = $activeFields->first(function ($f) {
@@ -211,25 +256,29 @@ class PublicAttendanceController extends Controller
         });
         $submittedKab = $kabField && isset($inputValues[$kabField->field_key])
             ? trim((string) $inputValues[$kabField->field_key])
-            : ($participant?->kabupaten_kota ?? null);
+            : (isset($inputValues['kabupaten_kota']) ? trim((string) $inputValues['kabupaten_kota']) : ($participant?->kabupaten_kota ?? null));
 
-        // Cari tanda tangan jika ada field bertipe signature
+        // Cari tanda tangan jika ada field bertipe signature atau direct signature
         $sigField = $activeFields->firstWhere('type', 'signature');
+        $rawSig = null;
+        if ($sigField && !empty($inputValues[$sigField->field_key])) {
+            $rawSig = (string) $inputValues[$sigField->field_key];
+        } elseif (!empty($inputValues['signature'])) {
+            $rawSig = (string) $inputValues['signature'];
+        }
+
         $signaturePath = null;
         $storedPaths = [];
 
-        if ($sigField && !empty($inputValues[$sigField->field_key])) {
-            $rawSig = (string) $inputValues[$sigField->field_key];
-            if (str_contains($rawSig, ';base64,')) {
-                $parts = explode(';base64,', $rawSig);
-                $decodedSig = base64_decode($parts[1] ?? '', true);
-                if ($decodedSig && strlen($decodedSig) >= 50 && substr($decodedSig, 0, 8) === "\x89PNG\r\n\x1a\n") {
-                    $optSig = ImageOptimizer::compressSignature($decodedSig, 600, 300);
-                    $sigFilename = 'sig_' . Str::random(32) . '.png';
-                    $signaturePath = 'signatures/' . $meeting->id . '/' . $sigFilename;
-                    Storage::disk('local')->put($signaturePath, $optSig);
-                    $storedPaths[] = $signaturePath;
-                }
+        if ($rawSig && str_contains($rawSig, ';base64,')) {
+            $parts = explode(';base64,', $rawSig);
+            $decodedSig = base64_decode($parts[1] ?? '', true);
+            if ($decodedSig && strlen($decodedSig) >= 50 && substr($decodedSig, 0, 8) === "\x89PNG\r\n\x1a\n") {
+                $optSig = ImageOptimizer::compressSignature($decodedSig, 600, 300);
+                $sigFilename = 'sig_' . Str::random(32) . '.png';
+                $signaturePath = 'signatures/' . $meeting->id . '/' . $sigFilename;
+                Storage::disk('local')->put($signaturePath, $optSig);
+                $storedPaths[] = $signaturePath;
             }
         }
 

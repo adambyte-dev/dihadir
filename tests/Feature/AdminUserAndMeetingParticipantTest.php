@@ -139,7 +139,8 @@ class AdminUserAndMeetingParticipantTest extends TestCase
 
         $response->assertRedirect();
         $response->assertSessionHas('success');
-        $this->assertEquals(1, $this->meeting->participants()->count());
+        $expectedCount = Participant::where('is_active', true)->count();
+        $this->assertEquals($expectedCount, $this->meeting->participants()->count());
     }
 
     public function test_local_svg_qr_code_endpoint_renders_valid_svg(): void

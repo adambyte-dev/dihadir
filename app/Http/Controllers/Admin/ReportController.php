@@ -82,6 +82,9 @@ class ReportController extends Controller
         // pertanyaan yang kemudian dinonaktifkan tetap ikut terlaporkan.
         $customFields = $meeting->formFields()->orderBy('order_index')->get();
 
+        // Landscape bila total kolom banyak (>= 2 custom fields) agar tidak terpotong
+        $isLandscape = $customFields->count() >= 2;
+
         $pdf = Pdf::loadView('admin.reports.pdf-template', [
             'meeting' => $meeting,
             'attendances' => $attendances,
@@ -89,8 +92,12 @@ class ReportController extends Controller
             'schoolLogoBase64' => $schoolLogoBase64,
             'dihadirLogoBase64' => $dihadirLogoBase64,
             'settings' => $settings,
+            'isLandscape' => $isLandscape,
             'printedAt' => now()->translatedFormat('d F Y, H:i') . ' WIB',
-        ])->setPaper('a4', $customFields->count() > 2 ? 'landscape' : 'portrait');
+        ])
+            ->setPaper('a4', $isLandscape ? 'landscape' : 'portrait')
+            ->setOption('isRemoteEnabled', true)
+            ->setOption('isHtml5ParserEnabled', true);
 
         if ($request->query('preview') == 1) {
             return $pdf->stream("Laporan_Kehadiran_{$meeting->slug}.pdf");
@@ -144,7 +151,7 @@ class ReportController extends Controller
         return response()->stream(function () use ($attendances, $meeting, $statusFilter, $customFields, $timeRange) {
             $handle = fopen('php://output', 'w');
 
-            // Tulis UTF-8 BOM agar terbaca sempurna di Microsoft Excel
+            // Tulis UTF-8 BOM agar aksen dan karakter khusus terbaca sempurna di Microsoft Excel
             fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
 
             $schoolName = SystemSetting::get('school_name', 'SMK Negeri 1 Majalengka');
@@ -153,26 +160,28 @@ class ReportController extends Controller
             fputcsv($handle, ['REKAP KEHADIRAN DIGITAL - ' . strtoupper($schoolName)]);
             fputcsv($handle, ['Nama Kegiatan:', self::sanitizeCsvValue($meeting->title)]);
             fputcsv($handle, ['Penyelenggara:', self::sanitizeCsvValue($meeting->organizer)]);
-            fputcsv($handle, ['Tanggal:', $meeting->meeting_date?->format('d/m/Y')]);
-            fputcsv($handle, ['Waktu:', $timeRange]);
-            fputcsv($handle, ['Lokasi:', self::sanitizeCsvValue($meeting->location)]);
+            fputcsv($handle, ['Hari & Tanggal:', $meeting->meeting_date?->translatedFormat('l, d F Y') ?? '-']);
+            fputcsv($handle, ['Waktu Pelaksanaan:', $timeRange]);
+            fputcsv($handle, ['Tempat / Lokasi:', self::sanitizeCsvValue($meeting->location)]);
+            fputcsv($handle, ['Total Kehadiran:', $attendances->count() . ' Peserta']);
             fputcsv($handle, ['Filter Status:', $statusFilter === 'all' ? 'Semua Status' : ucfirst($statusFilter)]);
-            fputcsv($handle, ['Diekspor pada:', now()->translatedFormat('d F Y H:i:s') . ' WIB']);
+            fputcsv($handle, ['Waktu Ekspor:', now()->translatedFormat('d F Y, H:i:s') . ' WIB']);
             fputcsv($handle, []); // Baris kosong pemisah
 
-            // Header Tabel
+            // Header Tabel Utama
             $headersRow = [
                 'No',
                 'NIP',
                 'Nama Lengkap',
                 'Unit Kerja / Instansi',
                 'Kabupaten / Kota',
-                'Tanggal Kehadiran',
-                'Waktu Kehadiran (WIB)',
-                'Status Kehadiran',
+                'Tanggal',
+                'Waktu (WIB)',
+                'Status',
             ];
 
             foreach ($customFields as $field) {
+                // Jangan duplikasi label bila mirip NIP/Nama/Unit Kerja yang sudah ada di kolom inti
                 $headersRow[] = self::sanitizeCsvValue($field->label);
             }
 
@@ -187,15 +196,22 @@ class ReportController extends Controller
                     self::sanitizeCsvValue($row->nip),
                     self::sanitizeCsvValue($row->name),
                     self::sanitizeCsvValue($row->unit_kerja),
-                    self::sanitizeCsvValue($row->kabupaten_kota),
+                    self::sanitizeCsvValue($row->kabupaten_kota ?: '-'),
                     $row->attended_date?->format('d/m/Y') ?? '-',
-                    substr($row->attended_time, 0, 5) . ' WIB',
-                    strtoupper($row->status),
+                    substr((string) $row->attended_time, 0, 5) . ' WIB',
+                    strtoupper((string) $row->status),
                 ];
 
                 foreach ($customFields as $field) {
                     $ans = $answersMap->get($field->id);
-                    $val = $ans ? ($ans->answer_value ?? ($ans->file_path ? '[Lampiran]' : '')) : '';
+                    $val = '';
+                    if ($ans) {
+                        if ($ans->file_path) {
+                            $val = '[Lampiran Berkas: ' . ($ans->answer_value ?: 'File') . ']';
+                        } else {
+                            $val = (string) $ans->answer_value;
+                        }
+                    }
                     $dataRow[] = self::sanitizeCsvValue($val);
                 }
 
