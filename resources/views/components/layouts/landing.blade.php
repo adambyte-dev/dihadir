@@ -27,6 +27,7 @@
     <meta name="description" content="{{ $metaDescription }}">
     <meta name="author" content="SMK Negeri 1 Majalengka">
     <meta name="google-site-verification" content="ypD_vcbzYWl6b6_kKaNMadrAWGfxl2UhW2ev2mvjY7g">
+    <meta name="dmca-site-verification" content="MzkxWGNHUXZHZTNUbWZOQWtKSWl6aEFGa3VjWUtkSHhyVVR4TFFTNDFMQT01">
     <link rel="canonical" href="{{ $canonicalUrl }}">
 
     {{-- Open Graph / Facebook --}}
