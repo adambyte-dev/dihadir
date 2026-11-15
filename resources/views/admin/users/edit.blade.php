@@ -55,38 +55,18 @@
 
                             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <div>
-                                    <label for="role" class="mb-1.5 block text-[13px] font-semibold text-slate-700">
-                                        Peran / Hak Akses
-                                        <span class="font-bold text-rose-600" aria-hidden="true">*</span>
-                                    </label>
-                                    <div class="relative">
-                                        <select
-                                            name="role"
-                                            id="role"
-                                            required
-                                            class="block w-full appearance-none rounded-lg border border-slate-300 bg-white py-2.5 pl-3.5 pr-10 text-xs sm:text-sm text-slate-800 shadow-2xs transition-all hover:border-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer {{ $errors->first('role') ? 'border-red-400' : 'border-slate-300' }}"
-                                        >
-                                            <option value="admin" {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>
-                                                Admin Pengelola (Hanya Acara Ditugaskan)
-                                            </option>
-                                            <option value="super_admin" {{ old('role', $user->role) === 'super_admin' ? 'selected' : '' }}>
-                                                Super Admin (Akses Penuh Seluruh Sistem)
-                                            </option>
-                                        </select>
-                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500">
-                                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    @if ($errors->first('role'))
-                                        <p class="mt-1 flex items-start gap-1 text-[11px] font-medium text-red-600">
-                                            <svg class="mt-0.5 h-3 w-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                            </svg>
-                                            <span>{{ $errors->first('role') }}</span>
-                                        </p>
-                                    @endif
+                                    <x-custom-select
+                                        label="Peran / Hak Akses"
+                                        name="role"
+                                        id="role"
+                                        :value="old('role', $user->role)"
+                                        :required="true"
+                                        :error="$errors->first('role')"
+                                        :options="[
+                                            'admin' => 'Admin Pengelola (Hanya Acara Ditugaskan)',
+                                            'super_admin' => 'Super Admin (Akses Penuh Seluruh Sistem)',
+                                        ]"
+                                    />
                                 </div>
 
                                 <div class="flex items-center pt-5">

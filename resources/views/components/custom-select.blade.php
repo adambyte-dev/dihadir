@@ -97,26 +97,27 @@
         x-cloak
         class="absolute left-0 right-0 z-50 mt-1 max-h-60 overflow-y-auto rounded-xl border border-slate-200 bg-white p-1 shadow-lg ring-1 ring-slate-900/5"
     >
-        <template x-for="[key, label] in Object.entries(options)" :key="key">
+        @forelse ($optionsMap as $key => $label)
             <button
                 type="button"
-                @click="select(key, label)"
+                @click="select('{{ addslashes((string) $key) }}', '{{ addslashes((string) $label) }}')"
                 role="option"
-                :aria-selected="selected == key"
+                :aria-selected="selected == '{{ addslashes((string) $key) }}'"
                 class="flex w-full cursor-pointer items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-xs text-slate-700 transition hover:bg-blue-50 hover:text-blue-700 focus:bg-blue-50 focus:outline-none"
-                :class="selected == key && 'bg-blue-50/70 font-semibold text-blue-700'"
+                :class="selected == '{{ addslashes((string) $key) }}' && 'bg-blue-50/70 font-semibold text-blue-700'"
             >
-                <span x-text="label" class="truncate"></span>
-                <span x-show="selected == key" class="shrink-0 text-blue-600">
+                <span class="truncate">{{ $label }}</span>
+                <span x-show="selected == '{{ addslashes((string) $key) }}'" class="shrink-0 text-blue-600">
                     <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                     </svg>
                 </span>
             </button>
-        </template>
-        <div x-show="Object.keys(options).length === 0" class="px-3 py-4 text-center text-xs text-slate-400">
-            Tidak ada opsi pilihan
-        </div>
+        @empty
+            <div class="px-3 py-4 text-center text-xs text-slate-400">
+                Tidak ada opsi pilihan
+            </div>
+        @endforelse
     </div>
 
     @if ($error)
