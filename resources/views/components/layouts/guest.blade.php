@@ -73,7 +73,7 @@
     {{-- ==================== FOOTER ==================== --}}
     <footer class="mt-auto border-t border-slate-200/80 bg-white">
         <div class="{{ $maxWidth }} mx-auto flex flex-col items-center justify-between gap-3 px-4 py-5 text-[11px] text-slate-500 sm:flex-row sm:px-6 lg:px-8">
-            <div class="flex items-center gap-2.5">
+            <div class="flex flex-wrap items-center gap-2.5">
                 <img
                     src="{{ asset('images/logo-dihadir-icon-trimmed.webp') }}"
                     alt=""
@@ -81,6 +81,23 @@
                     class="h-5 w-5 object-contain opacity-70"
                 >
                 <p>&copy; {{ date('Y') }} <span class="font-semibold text-slate-700">DIHADIR</span> · SMK Negeri 1 Majalengka</p>
+                <span class="text-slate-300">•</span>
+                {{-- DMCA Badge --}}
+                <a
+                    href="//www.dmca.com/Protection/Status.aspx?ID=3b30e653-c690-4e96-9aa7-eb3040f2efbe"
+                    title="DMCA.com Protection Status"
+                    class="dmca-badge inline-flex items-center transition-opacity hover:opacity-80"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <img
+                        src="{{ asset('images/dmca_protected_sml_120n.png') }}"
+                        alt="DMCA.com Protection Status"
+                        width="121"
+                        height="24"
+                        class="h-4 w-auto object-contain"
+                    />
+                </a>
             </div>
             <div class="flex items-center gap-2 text-slate-500">
                 <span>Jl. Raya Tonjong–Pinangraja No. 55, Majalengka</span>
@@ -91,5 +108,8 @@
     </footer>
     {{-- Scroll To Top --}}
     <x-scroll-to-top />
+
+    {{-- DMCA Protection Badge Script --}}
+    <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"></script>
 </body>
 </html>

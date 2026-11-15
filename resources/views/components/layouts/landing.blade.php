@@ -174,13 +174,35 @@
                 </div>
             </div>
 
-            <div class="mt-12 flex flex-col items-center justify-between border-t border-slate-100 pt-6 text-[11px] text-slate-400 sm:flex-row">
-                <p>&copy; {{ date('Y') }} DIHADIR · SMK Negeri 1 Majalengka. Seluruh hak cipta dilindungi.</p>
+            <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-slate-100 pt-6 text-[11px] text-slate-400 sm:flex-row">
+                <div class="flex flex-col sm:flex-row items-center gap-3">
+                    <p>&copy; {{ date('Y') }} DIHADIR · SMK Negeri 1 Majalengka. Seluruh hak cipta dilindungi.</p>
+                    <span class="hidden sm:inline text-slate-300">•</span>
+                    {{-- DMCA Protection Badge Resmi --}}
+                    <a
+                        href="//www.dmca.com/Protection/Status.aspx?ID=3b30e653-c690-4e96-9aa7-eb3040f2efbe"
+                        title="DMCA.com Protection Status"
+                        class="dmca-badge inline-flex items-center transition-opacity hover:opacity-80"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img
+                            src="{{ asset('images/dmca_protected_sml_120n.png') }}"
+                            alt="DMCA.com Protection Status"
+                            width="121"
+                            height="24"
+                            class="h-5 w-auto object-contain"
+                        />
+                    </a>
+                </div>
                 <p class="mt-2 sm:mt-0">Dikelola oleh Tim IT & Pengembang SMKN 1 Majalengka · Standar Waktu WIB (Asia/Jakarta)</p>
             </div>
         </div>
     </footer>
     {{-- Scroll To Top --}}
     <x-scroll-to-top />
+
+    {{-- DMCA Protection Badge Script --}}
+    <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"></script>
 </body>
 </html>

@@ -373,8 +373,26 @@
             </main>
 
             <footer class="w-full border-t border-slate-200/80 px-4 py-4 pb-24 sm:px-6 lg:px-8 lg:pb-4">
-                <div class="flex w-full flex-col items-center justify-between gap-2 text-[11px] text-slate-500 sm:flex-row">
-                    <p>&copy; {{ date('Y') }} <span class="font-semibold text-slate-700">DIHADIR</span> · SMK Negeri 1 Majalengka</p>
+                <div class="flex w-full flex-col items-center justify-between gap-3 text-[11px] text-slate-500 sm:flex-row">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <p>&copy; {{ date('Y') }} <span class="font-semibold text-slate-700">DIHADIR</span> · SMK Negeri 1 Majalengka</p>
+                        <span class="text-slate-300">•</span>
+                        <a
+                            href="//www.dmca.com/Protection/Status.aspx?ID=3b30e653-c690-4e96-9aa7-eb3040f2efbe"
+                            title="DMCA.com Protection Status"
+                            class="dmca-badge inline-flex items-center transition-opacity hover:opacity-80"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <img
+                                src="{{ asset('images/dmca_protected_sml_120n.png') }}"
+                                alt="DMCA.com Protection Status"
+                                width="121"
+                                height="24"
+                                class="h-4 w-auto object-contain"
+                            />
+                        </a>
+                    </div>
                     <p class="text-slate-500">Digital Attendance Management System</p>
                 </div>
             </footer>
