@@ -5,7 +5,7 @@
     'step' => null,
 ])
 
-<section {{ $attributes->merge(['class' => 'overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-sm']) }}>
+<section {{ $attributes->merge(['class' => 'rounded-xl border border-slate-200/90 bg-white shadow-sm']) }}>
     <div class="flex items-start gap-3 border-b border-slate-100 px-5 py-4">
         @if ($step)
             <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-slate-900 text-[11px] font-bold text-white">{{ $step }}</span>
