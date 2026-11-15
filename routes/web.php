@@ -16,6 +16,7 @@ use App\Http\Controllers\Auth\ParticipantLoginController;
 use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\PublicAttendanceController;
 use App\Http\Controllers\PuzzleCaptchaController;
+use App\Http\Controllers\SecurityChallengeController;
 use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,10 @@ use Illuminate\Support\Facades\Route;
 | Seluruh URL menggunakan format Clean URLs (tanpa ekstensi .php).
 | Otorisasi dilindungi di level server menggunakan Gates & Role Middleware.
 */
+
+// Jalur Verifikasi Keamanan Interstitial (Cloudflare-style Challenge)
+Route::get('/cdn-cgi/challenge', [SecurityChallengeController::class, 'show'])->name('security.challenge');
+Route::post('/cdn-cgi/verify', [SecurityChallengeController::class, 'verify'])->name('security.verify');
 
 // Halaman Publik (Landing Page, Legalitas, Robots & Sitemap)
 Route::get('/', function () {

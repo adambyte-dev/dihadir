@@ -19,8 +19,9 @@ return Application::configure(basePath: dirname(__DIR__))
         // Header keamanan global (anti clickjacking, MIME sniffing, noindex).
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
 
-        // Sesi lain otomatis berakhir ketika kata sandi akun diubah.
+        // Verifikasi keamanan Cloudflare-style untuk pengunjung baru
         $middleware->web(append: [
+            \App\Http\Middleware\EnforceSecurityChallenge::class,
             \Illuminate\Session\Middleware\AuthenticateSession::class,
         ]);
 
