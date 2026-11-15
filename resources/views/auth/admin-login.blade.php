@@ -2,12 +2,10 @@
     <div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)] lg:gap-8">
 
         {{-- ============ PANEL IDENTITAS (kiri, desktop) ============ --}}
-        <section class="relative hidden overflow-hidden rounded-2xl bg-gradient-to-br from-[#1E293B] via-[#172033] to-[#0F172A] p-8 text-white shadow-xl lg:flex lg:flex-col">
-            {{-- Ornamen garis halus, bukan glow --}}
-            <div class="pointer-events-none absolute inset-0 opacity-[0.35]" aria-hidden="true">
-                <div class="absolute -right-24 -top-24 h-72 w-72 rounded-full border border-white/10"></div>
-                <div class="absolute -right-10 top-24 h-48 w-48 rounded-full border border-white/[0.07]"></div>
-                <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent"></div>
+        <section class="relative hidden overflow-hidden rounded-2xl bg-slate-900 border border-slate-800 p-8 text-white shadow-sm lg:flex lg:flex-col">
+            {{-- Ornamen garis pemisah halus --}}
+            <div class="pointer-events-none absolute inset-0 opacity-[0.25]" aria-hidden="true">
+                <div class="absolute inset-x-0 bottom-0 h-px bg-slate-800"></div>
             </div>
 
             <div class="relative">
@@ -84,8 +82,8 @@
 
         {{-- ============ FORM LOGIN ============ --}}
         <section class="mx-auto w-full max-w-md lg:mx-0">
-            <div class="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xl shadow-slate-900/[0.07]">
-                <div class="h-1 bg-gradient-to-r from-slate-700 via-blue-600 to-sky-400" aria-hidden="true"></div>
+            <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div class="h-1 bg-blue-600" aria-hidden="true"></div>
 
                 <div class="p-6 sm:p-8">
                     <div class="mb-6">
@@ -123,7 +121,7 @@
                             id="login"
                             type="text"
                             value="{{ old('login') }}"
-                            placeholder="admin@smkn1majalengka.sch.id"
+                            placeholder="admin@dihadir.wacanateknologi.id"
                             :required="true"
                             :error="$errors->first('login')"
                             autocomplete="username"

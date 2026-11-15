@@ -4,11 +4,9 @@
         x-data="{ isFormVerified: false, showPassword: false, showHelpModal: false }"
     >
         {{-- ============ PANEL INFORMASI (kiri, desktop) ============ --}}
-        <section class="relative hidden overflow-hidden rounded-2xl bg-gradient-to-br from-[#1E293B] via-[#172033] to-[#0F172A] p-8 text-white shadow-xl lg:flex lg:flex-col">
-            <div class="pointer-events-none absolute inset-0 opacity-[0.35]" aria-hidden="true">
-                <div class="absolute -right-24 -top-24 h-72 w-72 rounded-full border border-white/10"></div>
-                <div class="absolute -right-10 top-24 h-48 w-48 rounded-full border border-white/[0.07]"></div>
-                <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent"></div>
+        <section class="relative hidden overflow-hidden rounded-2xl bg-slate-900 border border-slate-800 p-8 text-white shadow-sm lg:flex lg:flex-col">
+            <div class="pointer-events-none absolute inset-0 opacity-[0.25]" aria-hidden="true">
+                <div class="absolute inset-x-0 bottom-0 h-px bg-slate-800"></div>
             </div>
 
             <div class="relative">
@@ -108,8 +106,8 @@
                 </div>
             @endif
 
-            <div class="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xl shadow-slate-900/[0.07]">
-                <div class="h-1 bg-gradient-to-r from-slate-700 via-blue-600 to-sky-400" aria-hidden="true"></div>
+            <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div class="h-1 bg-blue-600" aria-hidden="true"></div>
 
                 <div class="p-6 sm:p-8">
                     <div class="mb-6">
@@ -282,8 +280,8 @@
             aria-modal="true"
             aria-labelledby="help-modal-title"
         >
-            <div class="w-full max-w-sm overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl" @click.away="showHelpModal = false">
-                <div class="h-1 bg-gradient-to-r from-slate-700 via-blue-600 to-sky-400" aria-hidden="true"></div>
+            <div class="w-full max-w-sm overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg" @click.away="showHelpModal = false">
+                <div class="h-1 bg-blue-600" aria-hidden="true"></div>
                 <div class="p-6">
                     <div class="flex items-start gap-3">
                         <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100">
@@ -306,7 +304,7 @@
                         </div>
                         <div class="flex justify-between gap-3">
                             <dt class="font-medium text-slate-500">Email</dt>
-                            <dd class="text-right font-semibold text-slate-800">admin@smkn1majalengka.sch.id</dd>
+                            <dd class="text-right font-semibold text-slate-800">admin@dihadir.wacanateknologi.id</dd>
                         </div>
                         <div class="flex justify-between gap-3">
                             <dt class="font-medium text-slate-500">Lokasi</dt>
