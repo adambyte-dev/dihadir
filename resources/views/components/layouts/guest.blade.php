@@ -84,7 +84,7 @@
                 <span class="text-slate-300">•</span>
                 {{-- DMCA Badge --}}
                 <a
-                    href="//www.dmca.com/Protection/Status.aspx?ID=3b30e653-c690-4e96-9aa7-eb3040f2efbe"
+                    href="//www.dmca.com/Protection/Status.aspx?id=3b30e653-c690-4e96-9aa7-eb3040f2efbe&amp;refurl=https%3a%2f%2fdihadir.wacanateknologi.id%2f"
                     title="DMCA.com Protection Status"
                     class="dmca-badge inline-flex items-center transition-opacity hover:opacity-80"
                     target="_blank"
